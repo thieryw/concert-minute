@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minute Concerts — Bordeaux</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bordeaux: #1a2744;
+  --bordeaux-dark: #0f1a30;
+  --bordeaux-light: #2a3d6b;
+  --gold: #C9A84C;
+  --gold-light: #E8D5A0;
+  --gold-pale: #EDE0C0;
+  --ivory: #F8F6F0;
+  --ivory-dark: #EAE6DC;
+  --white: #FFFFFF;
+  --text-dark: #1A0A10;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+/* Playfair always gold */
+[style*="Playfair"],
+.hero-title, .hero-hook-main, .section-title, .step-title,
+.prix-amount, .lieu-address-name, .footer-brand-title,
+.concept-card-text, .concept-card-quote {
+  color: var(--gold) !important;
+}
+/* Raleway always white or ivory on dark, dark on light */
+body { font-family: 'Raleway', sans-serif; }
+
+
+html { scroll-behavior: smooth; }
+
+/* ── TYPO SYSTEM: Playfair = gold, Raleway = white/ivory ── */
+h1, h2, h3,
+.hero-title, .hero-hook-main, .section-title, .step-title,
+.prix-amount, .lieu-address-name, .footer-brand-title,
+.concept-card-text, .concept-card-quote, .info-value,
+.footer-brand-title {
+  font-family: 'Playfair Display', serif !important;
+  color: var(--gold) !important;
+}
+
+/* Raleway for all body/UI text — white on dark bg, navy on light */
+.hero-sub, .hero-eyebrow, .hero-hook-sub, .hero-cta,
+.dates-item, .section-label, .step-desc, .artist-pill,
+.info-label, .info-detail, .prix-card-label, .prix-unit,
+.prix-title, .prix-desc, .prix-free,
+.lieu-text p, .lieu-address-detail, .lieu-map-text,
+.footer-brand-sub, .social-link, .footer-col-title,
+.footer-col-item, .footer-copyright, .footer-logo-text,
+.concept-card-detail, .qr-label, .qr-placeholder-text,
+nav a, p {
+  font-family: 'Raleway', sans-serif !important;
+}
+
+/* White on dark sections */
+.hero-sub, .hero-hook-sub, .step-desc,
+.lieu-text p, .lieu-address-detail, .footer-brand-sub,
+.footer-col-item, .footer-copyright, .footer-logo-text,
+.concept-card-detail {
+  color: rgba(255,255,255,0.85) !important;
+}
+
+/* Ivory for body text on light sections */
+.prix-desc, .infos p, .concept-text p {
+  font-family: 'Raleway', sans-serif !important;
+  color: #2a3a5a !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+}
+
+.prix-card.featured .prix-desc {
+  color: rgba(255,255,255,0.8) !important;
+}
+.prix-card.featured .prix-title {
+  color: var(--ivory) !important;
+  font-family: 'Playfair Display', serif !important;
+}
+
+/* Section titles stay gold */
+.section-title { color: var(--gold) !important; }
+
+/* On light bg section titles go navy */
+.concept .section-title,
+.repertoire .section-title,
+.prix-section .section-title,
+.infos .section-title,
+.vote-section .section-title {
+  color: var(--bordeaux-dark) !important;
+}
+
+/* Step titles gold always */
+.step-title { color: var(--gold) !important; font-family: 'Playfair Display', serif !important; }
+
+/* Info value navy on light card */
+.info-value { color: var(--bordeaux-dark) !important; font-family: 'Playfair Display', serif !important; }
+
+/* Hero hook accent */
+.hero-hook-accent { color: var(--gold) !important; }
+.hero-hook-main { color: var(--white) !important; font-family: 'Playfair Display', serif !important; }
+.hero-hook-accent { color: var(--gold) !important; }
+
+
+body {
+  background: var(--ivory);
+  color: var(--text-dark);
+  font-family: 'Raleway', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background: var(--bordeaux-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 60px 24px;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(26,39,68,0.6) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 20% 70%, rgba(201,168,76,0.08) 0%, transparent 60%);
+}
+
+.hero-texture {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A84C' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.hero-gold-bar-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+}
+.hero-gold-bar-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 900px;
+}
+
+.hero-eyebrow {
+  font-family: 'Raleway', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.2s forwards;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(64px, 12vw, 130px);
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 0.9;
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.4s forwards;
+}
+
+.hero-divider {
+  width: 60px;
+  height: 2px;
+  background: var(--gold);
+  margin: 20px auto;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.6s forwards;
+}
+
+.hero-sub {
+  font-family: 'Raleway', serif;
+  font-size: clamp(16px, 3vw, 22px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ivory);
+  letter-spacing: 2px;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.7s forwards;
+}
+
+.hero-hook {
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.9s forwards;
+}
+
+.hero-hook-main {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 7vw, 72px);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--white);
+  line-height: 1.1;
+  text-shadow: 0 2px 40px rgba(0,0,0,0.3);
+}
+
+.hero-hook-accent {
+  color: var(--gold-light);
+}
+
+.hero-hook-sub {
+  font-family: 'Raleway', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--gold);
+  color: var(--bordeaux-dark);
+  font-family: 'Raleway', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 18px 40px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.1s forwards;
+}
+.hero-cta:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.4s forwards;
+}
+.hero-scroll span {
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: rgba(253,246,236,0.4);
+  text-transform: uppercase;
+}
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* ─── DATES BANNER ─── */
+.dates-banner {
+  background: var(--gold);
+  padding: 18px 24px;
+  text-align: center;
+}
+.dates-banner-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.dates-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--bordeaux-dark);
+  text-transform: uppercase;
+}
+.dates-dot {
+  width: 4px; height: 4px;
+  background: var(--bordeaux-dark);
+  border-radius: 50%;
+}
+
+/* ─── CONCEPT ─── */
+.concept {
+  padding: 100px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 700;
+  color: var(--bordeaux-dark);
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.concept-text p {
+  font-family: 'Raleway', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #2a3a5a;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.concept-visual {
+  position: relative;
+}
+
+.concept-card {
+  background: var(--bordeaux);
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.concept-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gold);
+}
+
+.concept-card-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 16px;
+  opacity: 0.4;
+}
+
+.concept-card-text {
+  font-family: 'Raleway', serif;
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ivory);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.concept-card-detail {
+  font-family: 'Raleway', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+/* ─── STEPS ─── */
+.steps-section {
+  background: var(--bordeaux-dark);
+  padding: 100px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.steps-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.steps-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.steps-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.steps-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.steps-header .section-label { color: var(--gold); }
+.steps-header .section-title { color: var(--ivory); }
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.step-card {
+  background: rgba(255,255,255,0.04);
+  padding: 48px 36px;
+  position: relative;
+  border: 1px solid rgba(201,168,76,0.15);
+  transition: background 0.3s ease;
+}
+.step-card:hover { background: rgba(255,255,255,0.07); }
+
+.step-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 80px;
+  font-weight: 900;
+  color: var(--gold);
+  opacity: 0.15;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.step-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.step-desc {
+  font-family: 'Raleway', serif;
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--ivory-dark);
+  line-height: 1.7;
+}
+
+.step-accent {
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 0;
+  background: var(--gold);
+  transition: height 0.4s ease;
+}
+.step-card:hover .step-accent { height: 100%; }
+
+/* ─── REPERTOIRE ─── */
+.repertoire {
+  padding: 100px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.repertoire-artists {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 48px;
+}
+
+.artist-pill {
+  font-family: 'Raleway', serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--bordeaux);
+  border: 1px solid var(--bordeaux);
+  padding: 8px 20px;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+.artist-pill:hover {
+  background: var(--bordeaux);
+  color: var(--ivory);
+}
+.artist-pill.gold {
+  border-color: var(--gold);
+  color: var(--bordeaux-dark);
+}
+.artist-pill.gold:hover {
+  background: var(--gold);
+}
+
+/* ─── INFOS PRATIQUES ─── */
+.infos {
+  background: var(--ivory-dark);
+  padding: 100px 24px;
+  position: relative;
+}
+
+.infos::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.infos-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.infos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin-top: 48px;
+}
+
+.info-card {
+  background: var(--ivory);
+  padding: 40px 28px;
+  border-top: 3px solid var(--gold);
+  text-align: center;
+}
+
+.info-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.info-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.info-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--bordeaux-dark);
+  line-height: 1.3;
+}
+
+.info-detail {
+  font-family: 'Raleway', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: #5a6a8a;
+  margin-top: 6px;
+}
+
+/* ─── PRIX ─── */
+.prix-section {
+  padding: 100px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.prix-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.prix-card {
+  border: 1px solid rgba(26,39,68,0.15);
+  padding: 48px 40px;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+.prix-card:hover { transform: translateY(-4px); }
+
+.prix-card.featured {
+  background: var(--bordeaux);
+  border-color: transparent;
+}
+
+.prix-card-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  display: block;
+}
+
+.prix-amount {
+  font-family: 'Playfair Display', serif;
+  font-size: 72px;
+  font-weight: 900;
+  color: var(--bordeaux);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.prix-card.featured .prix-amount { color: var(--gold); }
+
+.prix-unit {
+  font-family: 'Raleway', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--bordeaux);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  opacity: 0.7;
+}
+.prix-card.featured .prix-unit { color: var(--gold-light); }
+
+.prix-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--bordeaux-dark);
+  margin-bottom: 12px;
+}
+.prix-card.featured .prix-title { color: var(--ivory); }
+
+.prix-desc {
+  font-family: 'Raleway', serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: #3a4a6a;
+  line-height: 1.7;
+}
+.prix-card.featured .prix-desc { color: var(--gold-pale); }
+
+.prix-free {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border: 1px solid var(--gold);
+}
+
+/* ─── LIEU ─── */
+.lieu-section {
+  background: var(--bordeaux-dark);
+  padding: 100px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.lieu-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.lieu-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.lieu-text .section-label { color: var(--gold); }
+.lieu-text .section-title { color: var(--ivory); }
+
+.lieu-text p {
+  font-family: 'Raleway', serif;
+  font-size: 19px;
+  font-weight: 300;
+  color: var(--gold-pale);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.lieu-address {
+  margin-top: 32px;
+  padding: 24px 28px;
+  border: 1px solid rgba(201,168,76,0.3);
+  border-left: 3px solid var(--gold);
+}
+
+.lieu-address-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.lieu-address-detail {
+  font-family: 'Raleway', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: var(--ivory-dark);
+  opacity: 0.7;
+}
+
+.lieu-map {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(201,168,76,0.2);
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.lieu-map-placeholder {
+  text-align: center;
+}
+
+.lieu-map-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.lieu-map-text {
+  font-family: 'Raleway', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--gold);
+  padding: 12px 24px;
+  transition: all 0.3s ease;
+}
+.map-link:hover {
+  background: var(--gold);
+  color: var(--bordeaux-dark);
+}
+
+/* ─── QR / VOTE ─── */
+.vote-section {
+  padding: 100px 24px;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.qr-container {
+  margin: 48px auto 0;
+  display: inline-block;
+  background: var(--bordeaux);
+  padding: 40px;
+  position: relative;
+}
+
+.qr-container::before {
+  content: '';
+  position: absolute;
+  top: -3px; left: -3px; right: -3px; bottom: -3px;
+  border: 1px solid var(--gold);
+  pointer-events: none;
+}
+
+.qr-placeholder {
+  width: 180px;
+  height: 180px;
+  background: var(--ivory);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.qr-placeholder-text {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--bordeaux);
+  text-transform: uppercase;
+  text-align: center;
+  padding: 12px;
+}
+
+.qr-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--text-dark);
+  padding: 60px 24px 32px;
+  position: relative;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.footer-brand-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.footer-brand-sub {
+  font-family: 'Raleway', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(253,246,236,0.5);
+  margin-bottom: 20px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 16px;
+}
+
+.social-link {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-decoration: none;
+  text-transform: uppercase;
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 8px 16px;
+  transition: all 0.3s ease;
+}
+.social-link:hover {
+  background: var(--gold);
+  color: var(--text-dark);
+  border-color: var(--gold);
+}
+
+.footer-col-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.footer-col-item {
+  font-family: 'Raleway', serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(253,246,236,0.6);
+  margin-bottom: 10px;
+  cursor: default;
+}
+
+.footer-bottom {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(201,168,76,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-copyright {
+  font-family: 'Raleway', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: rgba(253,246,236,0.3);
+  letter-spacing: 1px;
+}
+
+.footer-logos {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-logo-text {
+  font-family: 'Raleway', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(201,168,76,0.6);
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.1); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .concept-grid, .lieu-inner, .prix-grid, .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .steps-grid, .infos-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-title { font-size: 56px; }
+  .hero-hook-main { font-size: 36px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav style="position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom, rgba(15,26,48,0.95), transparent);backdrop-filter:blur(8px);">
+  <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--gold);letter-spacing:1px;">MINUTE CONCERTS</div>
+  <div style="display:flex;gap:32px;align-items:center;">
+    <a href="#concept" style="font-family:'Raleway',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;color:var(--ivory);text-decoration:none;text-transform:uppercase;opacity:0.7;transition:opacity 0.2s;">Le concept</a>
+    <a href="#infos" style="font-family:'Raleway',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;color:var(--ivory);text-decoration:none;text-transform:uppercase;opacity:0.7;transition:opacity 0.2s;">Infos</a>
+    <a href="#lieu" style="font-family:'Raleway',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;color:var(--ivory);text-decoration:none;text-transform:uppercase;opacity:0.7;transition:opacity 0.2s;">Lieu</a>
+    <a href="#vote" style="font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--bordeaux-dark);background:var(--gold);padding:10px 20px;text-decoration:none;text-transform:uppercase;transition:all 0.2s;">Votez</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-texture"></div>
+  <div class="hero-gold-bar-top"></div>
+  <div class="hero-gold-bar-bottom"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Récital Production présente</div>
+    <div class="hero-title">MINUTE<br>CONCERTS</div>
+    <div class="hero-divider"></div>
+    <div class="hero-sub">Les hits interprétés par un quatuor à cordes</div>
+    <div class="hero-hook">
+      <div class="hero-hook-main">
+        <span class="hero-hook-accent">Vous votez.</span><br>
+        Nous jouons.
+      </div>
+      <div class="hero-hook-sub">Votez · Top 3 joués en live · Toutes les 30 minutes</div>
+    </div>
+    <a href="#vote" class="hero-cta">Voir le programme →</a>
+  </div>
+  <div class="hero-scroll">
+    <span>Découvrir</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- DATES BANNER -->
+<div class="dates-banner">
+  <div class="dates-banner-inner">
+    <div class="dates-item">📅 28 juillet — 2 août 2025</div>
+    <div class="dates-dot"></div>
+    <div class="dates-item">📍 Théâtre de l'Inox · Place de la Bourse</div>
+    <div class="dates-dot"></div>
+    <div class="dates-item">🎟 6€ · 3 hits · Gratuit -12 ans</div>
+    <div class="dates-dot"></div>
+    <div class="dates-item">⏱ Concerts toutes les 30 min</div>
+  </div>
+</div>
+
+<!-- CONCEPT -->
+<section class="concept reveal" id="concept">
+  <div class="concept-grid">
+    <div class="concept-text">
+      <div class="section-label">Le concept</div>
+      <div class="section-title">Un concert<br>comme nulle<br>part ailleurs</div>
+      <p>Pour la première fois à Bordeaux, c'est vous qui décidez du programme. Choisissez vos morceaux favoris, votez — et les trois plus plébiscités sont joués en direct par un quatuor à cordes professionnel.</p>
+      <p>Pop, classique, cinéma, comédie musicale — un répertoire qui traverse les genres et les générations, réarrangé avec élégance sur instruments acoustiques.</p>
+      <p>Concerts toutes les 30 minutes, toute la journée. Sans réservation. Sans prétention.</p>
+    </div>
+    <div class="concept-visual">
+      <div class="concept-card">
+        <div class="concept-card-quote">"</div>
+        <div class="concept-card-text">La musique classique n'a jamais été aussi vivante — ni aussi à vous.</div>
+        <div class="concept-card-detail">Musiciens de l'Opéra de Bordeaux</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="steps-section">
+  <div class="steps-inner">
+    <div class="steps-header reveal">
+      <div class="section-label">Comment ça marche</div>
+      <div class="section-title">Simple comme trois notes</div>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-accent"></div>
+        <div class="step-number">01</div>
+        <div class="step-title">Vous votez</div>
+        <div class="step-desc">Scannez le QR code à l'entrée et choisissez vos 3 morceaux préférés dans notre playlist. Taylor Swift, ABBA, Mozart, Vivaldi — la liste est longue.</div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-accent"></div>
+        <div class="step-number">02</div>
+        <div class="step-title">On joue</div>
+        <div class="step-desc">Les 3 morceaux les plus votés sont interprétés en live par notre quatuor à cordes. Le public a parlé — les musiciens jouent.</div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-accent"></div>
+        <div class="step-number">03</div>
+        <div class="step-title">On recommence</div>
+        <div class="step-desc">Toutes les 30 minutes, un nouveau vote, un nouveau concert. Restez, repartez, revenez — chaque session est unique.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REPERTOIRE -->
+<section class="repertoire reveal">
+  <div class="section-label">Le répertoire</div>
+  <div class="section-title">Des tubes pour tous</div>
+  <div class="repertoire-artists">
+    <span class="artist-pill">Taylor Swift</span>
+    <span class="artist-pill gold">ABBA</span>
+    <span class="artist-pill">Queen</span>
+    <span class="artist-pill gold">Coldplay</span>
+    <span class="artist-pill">Piaf</span>
+    <span class="artist-pill gold">Aznavour</span>
+    <span class="artist-pill">Bridgerton</span>
+    <span class="artist-pill gold">Mozart</span>
+    <span class="artist-pill">Vivaldi</span>
+    <span class="artist-pill gold">Goldman</span>
+    <span class="artist-pill">Dion</span>
+    <span class="artist-pill gold">Hans Zimmer</span>
+    <span class="artist-pill">Imagine Dragons</span>
+    <span class="artist-pill gold">Ed Sheeran</span>
+    <span class="artist-pill">Grande</span>
+    <span class="artist-pill gold">& bien d'autres…</span>
+  </div>
+</section>
+
+<!-- INFOS PRATIQUES -->
+<section class="infos" id="infos">
+  <div class="infos-inner">
+    <div class="reveal">
+      <div class="section-label">Infos pratiques</div>
+      <div class="section-title">Tout ce qu'il faut savoir</div>
+    </div>
+    <div class="infos-grid">
+      <div class="info-card reveal">
+        <span class="info-icon">📅</span>
+        <div class="info-label">Dates</div>
+        <div class="info-value">28 juil.<br>au 2 août</div>
+        <div class="info-detail">Tous les jours</div>
+      </div>
+      <div class="info-card reveal">
+        <span class="info-icon">⏱</span>
+        <div class="info-label">Fréquence</div>
+        <div class="info-value">Toutes les<br>30 minutes</div>
+        <div class="info-detail">Toute la journée</div>
+      </div>
+      <div class="info-card reveal">
+        <span class="info-icon">🎟</span>
+        <div class="info-label">Tarif</div>
+        <div class="info-value">6 €<br>3 morceaux</div>
+        <div class="info-detail">Gratuit — 12 ans</div>
+      </div>
+      <div class="info-card reveal">
+        <span class="info-icon">🎻</span>
+        <div class="info-label">Formation</div>
+        <div class="info-value">Quatuor<br>à cordes</div>
+        <div class="info-detail">Opéra de Bordeaux</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIX -->
+<section class="prix-section reveal">
+  <div class="section-label">Tarifs</div>
+  <div class="section-title">À votre rythme</div>
+  <div class="prix-grid">
+    <div class="prix-card">
+      <span class="prix-card-label">Entrée individuelle</span>
+      <div class="prix-amount">6€</div>
+      <div class="prix-unit">par personne</div>
+      <div class="prix-title">3 morceaux en live</div>
+      <div class="prix-desc">Votez, écoutez, profitez. Payez à l'entrée, sans réservation préalable.</div>
+      <div class="prix-free">★ Gratuit pour les moins de 12 ans</div>
+    </div>
+    <div class="prix-card featured">
+      <span class="prix-card-label">Tarif groupe — croisière</span>
+      <div class="prix-amount">4€</div>
+      <div class="prix-unit">par passager</div>
+      <div class="prix-title">Sur présentation de la carte passager</div>
+      <div class="prix-desc">Tarif exclusif réservé aux passagers de croisière sur présentation de votre carte d'embarquement à l'entrée.</div>
+      <div class="prix-free">★ Gratuit pour les moins de 12 ans</div>
+    </div>
+  </div>
+</section>
+
+<!-- LIEU -->
+<section class="lieu-section" id="lieu">
+  <div class="lieu-inner">
+    <div class="lieu-text reveal">
+      <div class="section-label">Le lieu</div>
+      <div class="section-title">Au cœur<br>de Bordeaux</div>
+      <p>Le Théâtre de l'Inox est niché sur la Place de la Bourse — le site le plus photographié de Bordeaux, à deux pas du célèbre Miroir d'eau.</p>
+      <p>Un arrêt naturel dans toute visite de la ville. Aucun transport, aucune réservation — il suffit de passer.</p>
+      <div class="lieu-address">
+        <div class="lieu-address-name">Théâtre de l'Inox</div>
+        <div class="lieu-address-detail">Place de la Bourse · Bordeaux Centre</div>
+      </div>
+    </div>
+    <div class="lieu-map reveal">
+      <div class="lieu-map-placeholder">
+        <span class="lieu-map-icon">📍</span>
+        <div class="lieu-map-text">Place de la Bourse<br>Bordeaux</div>
+        <a href="https://maps.google.com/?q=Place+de+la+Bourse+Bordeaux" target="_blank" class="map-link">Voir sur la carte →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOTE / QR -->
+<section class="vote-section" id="vote">
+  <div class="reveal">
+    <div class="section-label">Participez</div>
+    <div class="section-title">Scannez &<br>votez</div>
+    <p style="font-family:'Raleway',serif;font-size:19px;color:#6a3040;line-height:1.7;margin-top:20px;">
+      Sur place, scannez le QR code pour accéder à la playlist du moment et voter pour vos morceaux. Le vote ouvre 10 minutes avant chaque concert.
+    </p>
+  </div>
+  <div class="qr-container reveal">
+    <div class="qr-placeholder">
+      <div class="qr-placeholder-text">QR Code<br>à intégrer<br>ici</div>
+    </div>
+    <div class="qr-label">Scanner pour voter</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-title">MINUTE CONCERTS</div>
+      <div class="footer-brand-sub">by Récital Production</div>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/recital_production/" target="_blank" class="social-link">Instagram</a>
+        <a href="https://www.youtube.com/channel/UCxsPhn7yEuFTSw9n8stQTpg" target="_blank" class="social-link">YouTube</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <div class="footer-col-item">Le concept</div>
+      <div class="footer-col-item">Infos pratiques</div>
+      <div class="footer-col-item">Tarifs</div>
+      <div class="footer-col-item">Le lieu</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <div class="footer-col-item">Partenariats</div>
+      <div class="footer-col-item">Presse</div>
+      <div class="footer-col-item">Récital Production</div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copyright">© 2025 Récital Production — Tous droits réservés</div>
+    <div class="footer-logos">
+      <span class="footer-logo-text">Récital Production</span>
+      <span style="color:rgba(201,168,76,0.3)">·</span>
+      <span class="footer-logo-text">Ville de Bordeaux</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+document.querySelectorAll('nav a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
