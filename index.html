@@ -111,6 +111,144 @@ body {
   overflow-x: hidden;
 }
 
+/* ─────────────────────────────────────────────
+   NAV (responsive)
+   ───────────────────────────────────────────── */
+nav.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to bottom, rgba(15,26,48,0.95), rgba(15,26,48,0.6));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 1px;
+  z-index: 102;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--ivory);
+  text-decoration: none;
+  text-transform: uppercase;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.nav-links a:hover { opacity: 1; }
+
+.nav-links a.cta {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--bordeaux-dark);
+  background: var(--gold);
+  padding: 10px 20px;
+  opacity: 1;
+  transition: background 0.2s, transform 0.2s;
+}
+.nav-links a.cta:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+}
+
+/* Hamburger */
+.nav-toggle {
+  display: none;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 102;
+  padding: 0;
+}
+.nav-toggle span {
+  display: block;
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 1px;
+  transition: transform 0.3s ease, opacity 0.2s ease, top 0.3s ease;
+}
+.nav-toggle span:nth-child(1) { top: 11px; }
+.nav-toggle span:nth-child(2) { top: 17px; }
+.nav-toggle span:nth-child(3) { top: 23px; }
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { top: 17px; transform: rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { top: 17px; transform: rotate(-45deg); }
+
+@media (max-width: 768px) {
+  nav.site-nav { padding: 16px 20px; }
+  .nav-toggle { display: block; }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    align-items: stretch;
+    background: var(--bordeaux-dark);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 80px 24px 32px;
+    transform: translateY(-100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  }
+  .nav-links.open { transform: translateY(0); }
+
+  .nav-links li { border-top: 1px solid rgba(201,168,76,0.12); }
+  .nav-links li:last-child {
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    margin-top: 12px;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 20px 8px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    opacity: 0.85;
+  }
+  .nav-links a.cta {
+    background: transparent;
+    color: var(--gold);
+    padding: 22px 8px;
+    text-align: left;
+    font-size: 13px;
+    letter-spacing: 3px;
+  }
+  .nav-links a.cta::after { content: ' →'; }
+  .nav-links a.cta:hover { background: transparent; transform: none; }
+
+  body.menu-open { overflow: hidden; }
+}
+
 /* ─── HERO ─── */
 .hero {
   position: relative;
@@ -256,10 +394,8 @@ body {
 }
 
 .hero-scroll {
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
+    position: relative;
+    top: 50px;
   z-index: 2;
   display: flex;
   flex-direction: column;
@@ -1002,284 +1138,343 @@ footer::before {
 }
 </style>
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav style="position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom, rgba(15,26,48,0.95), transparent);backdrop-filter:blur(8px);">
-  <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--gold);letter-spacing:1px;">MINUTE CONCERTS</div>
-  <div style="display:flex;gap:32px;align-items:center;">
-    <a href="#concept" style="font-family:'Raleway',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;color:var(--ivory);text-decoration:none;text-transform:uppercase;opacity:0.7;transition:opacity 0.2s;">Le concept</a>
-    <a href="#infos" style="font-family:'Raleway',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;color:var(--ivory);text-decoration:none;text-transform:uppercase;opacity:0.7;transition:opacity 0.2s;">Infos</a>
-    <a href="#lieu" style="font-family:'Raleway',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;color:var(--ivory);text-decoration:none;text-transform:uppercase;opacity:0.7;transition:opacity 0.2s;">Lieu</a>
-    <a href="#vote" style="font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--bordeaux-dark);background:var(--gold);padding:10px 20px;text-decoration:none;text-transform:uppercase;transition:all 0.2s;">Votez</a>
-  </div>
-</nav>
+    <!-- NAV -->
+    <nav class="site-nav">
+        <div class="nav-brand">MINUTE CONCERTS</div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-texture"></div>
-  <div class="hero-gold-bar-top"></div>
-  <div class="hero-gold-bar-bottom"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">Récital Production présente</div>
-    <div class="hero-title">MINUTE<br>CONCERTS</div>
-    <div class="hero-divider"></div>
-    <div class="hero-sub">Les hits interprétés par un quatuor à cordes</div>
-    <div class="hero-hook">
-      <div class="hero-hook-main">
-        <span class="hero-hook-accent">Vous votez.</span><br>
-        Nous jouons.
-      </div>
-      <div class="hero-hook-sub">Votez · Top 3 joués en live · Toutes les 30 minutes</div>
-    </div>
-    <a href="#vote" class="hero-cta">Voir le programme →</a>
-  </div>
-  <div class="hero-scroll">
-    <span>Découvrir</span>
-    <div class="scroll-line"></div>
-  </div>
-</section>
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
 
-<!-- DATES BANNER -->
-<div class="dates-banner">
-  <div class="dates-banner-inner">
-    <div class="dates-item">📅 28 juillet — 2 août 2025</div>
-    <div class="dates-dot"></div>
-    <div class="dates-item">📍 Théâtre de l'Inox · Place de la Bourse</div>
-    <div class="dates-dot"></div>
-    <div class="dates-item">🎟 6€ · 3 hits · Gratuit -12 ans</div>
-    <div class="dates-dot"></div>
-    <div class="dates-item">⏱ Concerts toutes les 30 min</div>
-  </div>
-</div>
+        <ul class="nav-links" id="primary-nav">
+            <li><a href="#concept">Le concept</a></li>
+            <li><a href="#infos">Infos</a></li>
+            <li><a href="#lieu">Lieu</a></li>
+            <li><a href="#vote" class="cta">Votez</a></li>
+        </ul>
+    </nav>
 
-<!-- CONCEPT -->
-<section class="concept reveal" id="concept">
-  <div class="concept-grid">
-    <div class="concept-text">
-      <div class="section-label">Le concept</div>
-      <div class="section-title">Un concert<br>comme nulle<br>part ailleurs</div>
-      <p>Pour la première fois à Bordeaux, c'est vous qui décidez du programme. Choisissez vos morceaux favoris, votez — et les trois plus plébiscités sont joués en direct par un quatuor à cordes professionnel.</p>
-      <p>Pop, classique, cinéma, comédie musicale — un répertoire qui traverse les genres et les générations, réarrangé avec élégance sur instruments acoustiques.</p>
-      <p>Concerts toutes les 30 minutes, toute la journée. Sans réservation. Sans prétention.</p>
-    </div>
-    <div class="concept-visual">
-      <div class="concept-card">
-        <div class="concept-card-quote">"</div>
-        <div class="concept-card-text">La musique classique n'a jamais été aussi vivante — ni aussi à vous.</div>
-        <div class="concept-card-detail">Musiciens de l'Opéra de Bordeaux</div>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-texture"></div>
+        <div class="hero-gold-bar-top"></div>
+        <div class="hero-gold-bar-bottom"></div>
+        <div class="hero-content">
+            <div class="hero-eyebrow">Récital Production présente</div>
+            <div class="hero-title">MINUTE<br>CONCERTS</div>
+            <div class="hero-divider"></div>
+            <div class="hero-sub">Les hits interprétés par un quatuor à cordes</div>
+            <div class="hero-hook">
+                <div class="hero-hook-main">
+                    <span class="hero-hook-accent">Vous votez.</span><br>
+                    Nous jouons.
+                </div>
+                <div class="hero-hook-sub">Votez · Top 3 joués en live · Toutes les 30 minutes</div>
+            </div>
+            <a href="#vote" class="hero-cta">Voir le programme →</a>
+        </div>
+        <div class="hero-scroll">
+            <span>Découvrir</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
 
-<!-- STEPS -->
-<section class="steps-section">
-  <div class="steps-inner">
-    <div class="steps-header reveal">
-      <div class="section-label">Comment ça marche</div>
-      <div class="section-title">Simple comme trois notes</div>
+    <!-- DATES BANNER -->
+    <div class="dates-banner">
+        <div class="dates-banner-inner">
+            <div class="dates-item">📅 28 juillet — 2 août 2025</div>
+            <div class="dates-dot"></div>
+            <div class="dates-item">📍 Théâtre de l'Inox · Place de la Bourse</div>
+            <div class="dates-dot"></div>
+            <div class="dates-item">🎟 6€ · 3 hits · Gratuit -12 ans</div>
+            <div class="dates-dot"></div>
+            <div class="dates-item">⏱ Concerts toutes les 30 min</div>
+        </div>
     </div>
-    <div class="steps-grid">
-      <div class="step-card reveal">
-        <div class="step-accent"></div>
-        <div class="step-number">01</div>
-        <div class="step-title">Vous votez</div>
-        <div class="step-desc">Scannez le QR code à l'entrée et choisissez vos 3 morceaux préférés dans notre playlist. Taylor Swift, ABBA, Mozart, Vivaldi — la liste est longue.</div>
-      </div>
-      <div class="step-card reveal">
-        <div class="step-accent"></div>
-        <div class="step-number">02</div>
-        <div class="step-title">On joue</div>
-        <div class="step-desc">Les 3 morceaux les plus votés sont interprétés en live par notre quatuor à cordes. Le public a parlé — les musiciens jouent.</div>
-      </div>
-      <div class="step-card reveal">
-        <div class="step-accent"></div>
-        <div class="step-number">03</div>
-        <div class="step-title">On recommence</div>
-        <div class="step-desc">Toutes les 30 minutes, un nouveau vote, un nouveau concert. Restez, repartez, revenez — chaque session est unique.</div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- REPERTOIRE -->
-<section class="repertoire reveal">
-  <div class="section-label">Le répertoire</div>
-  <div class="section-title">Des tubes pour tous</div>
-  <div class="repertoire-artists">
-    <span class="artist-pill">Taylor Swift</span>
-    <span class="artist-pill gold">ABBA</span>
-    <span class="artist-pill">Queen</span>
-    <span class="artist-pill gold">Coldplay</span>
-    <span class="artist-pill">Piaf</span>
-    <span class="artist-pill gold">Aznavour</span>
-    <span class="artist-pill">Bridgerton</span>
-    <span class="artist-pill gold">Mozart</span>
-    <span class="artist-pill">Vivaldi</span>
-    <span class="artist-pill gold">Goldman</span>
-    <span class="artist-pill">Dion</span>
-    <span class="artist-pill gold">Hans Zimmer</span>
-    <span class="artist-pill">Imagine Dragons</span>
-    <span class="artist-pill gold">Ed Sheeran</span>
-    <span class="artist-pill">Grande</span>
-    <span class="artist-pill gold">& bien d'autres…</span>
-  </div>
-</section>
+    <!-- CONCEPT -->
+    <section class="concept reveal" id="concept">
+        <div class="concept-grid">
+            <div class="concept-text">
+                <div class="section-label">Le concept</div>
+                <div class="section-title">Un concert<br>comme nulle<br>part ailleurs</div>
+                <p>Pour la première fois à Bordeaux, c'est vous qui décidez du programme. Choisissez vos morceaux
+                    favoris, votez — et les trois plus plébiscités sont joués en direct par un quatuor à cordes
+                    professionnel.</p>
+                <p>Pop, classique, cinéma, comédie musicale — un répertoire qui traverse les genres et les générations,
+                    réarrangé avec élégance sur instruments acoustiques.</p>
+                <p>Concerts toutes les 30 minutes, toute la journée. Sans réservation. Sans prétention.</p>
+            </div>
+            <div class="concept-visual">
+                <div class="concept-card">
+                    <div class="concept-card-quote">"</div>
+                    <div class="concept-card-text">La musique classique n'a jamais été aussi vivante — ni aussi à vous.
+                    </div>
+                    <div class="concept-card-detail">Musiciens de l'Opéra de Bordeaux</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- INFOS PRATIQUES -->
-<section class="infos" id="infos">
-  <div class="infos-inner">
-    <div class="reveal">
-      <div class="section-label">Infos pratiques</div>
-      <div class="section-title">Tout ce qu'il faut savoir</div>
-    </div>
-    <div class="infos-grid">
-      <div class="info-card reveal">
-        <span class="info-icon">📅</span>
-        <div class="info-label">Dates</div>
-        <div class="info-value">28 juil.<br>au 2 août</div>
-        <div class="info-detail">Tous les jours</div>
-      </div>
-      <div class="info-card reveal">
-        <span class="info-icon">⏱</span>
-        <div class="info-label">Fréquence</div>
-        <div class="info-value">Toutes les<br>30 minutes</div>
-        <div class="info-detail">Toute la journée</div>
-      </div>
-      <div class="info-card reveal">
-        <span class="info-icon">🎟</span>
-        <div class="info-label">Tarif</div>
-        <div class="info-value">6 €<br>3 morceaux</div>
-        <div class="info-detail">Gratuit — 12 ans</div>
-      </div>
-      <div class="info-card reveal">
-        <span class="info-icon">🎻</span>
-        <div class="info-label">Formation</div>
-        <div class="info-value">Quatuor<br>à cordes</div>
-        <div class="info-detail">Opéra de Bordeaux</div>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- STEPS -->
+    <section class="steps-section">
+        <div class="steps-inner">
+            <div class="steps-header reveal">
+                <div class="section-label">Comment ça marche</div>
+                <div class="section-title">Simple comme trois notes</div>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card reveal">
+                    <div class="step-accent"></div>
+                    <div class="step-number">01</div>
+                    <div class="step-title">Vous votez</div>
+                    <div class="step-desc">Scannez le QR code à l'entrée et choisissez vos 3 morceaux préférés dans
+                        notre playlist. Taylor Swift, ABBA, Mozart, Vivaldi — la liste est longue.</div>
+                </div>
+                <div class="step-card reveal">
+                    <div class="step-accent"></div>
+                    <div class="step-number">02</div>
+                    <div class="step-title">On joue</div>
+                    <div class="step-desc">Les 3 morceaux les plus votés sont interprétés en live par notre quatuor à
+                        cordes. Le public a parlé — les musiciens jouent.</div>
+                </div>
+                <div class="step-card reveal">
+                    <div class="step-accent"></div>
+                    <div class="step-number">03</div>
+                    <div class="step-title">On recommence</div>
+                    <div class="step-desc">Toutes les 30 minutes, un nouveau vote, un nouveau concert. Restez, repartez,
+                        revenez — chaque session est unique.</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- PRIX -->
-<section class="prix-section reveal">
-  <div class="section-label">Tarifs</div>
-  <div class="section-title">À votre rythme</div>
-  <div class="prix-grid">
-    <div class="prix-card">
-      <span class="prix-card-label">Entrée individuelle</span>
-      <div class="prix-amount">6€</div>
-      <div class="prix-unit">par personne</div>
-      <div class="prix-title">3 morceaux en live</div>
-      <div class="prix-desc">Votez, écoutez, profitez. Payez à l'entrée, sans réservation préalable.</div>
-      <div class="prix-free">★ Gratuit pour les moins de 12 ans</div>
-    </div>
-    <div class="prix-card featured">
-      <span class="prix-card-label">Tarif groupe — croisière</span>
-      <div class="prix-amount">4€</div>
-      <div class="prix-unit">par passager</div>
-      <div class="prix-title">Sur présentation de la carte passager</div>
-      <div class="prix-desc">Tarif exclusif réservé aux passagers de croisière sur présentation de votre carte d'embarquement à l'entrée.</div>
-      <div class="prix-free">★ Gratuit pour les moins de 12 ans</div>
-    </div>
-  </div>
-</section>
+    <!-- REPERTOIRE -->
+    <section class="repertoire reveal">
+        <div class="section-label">Le répertoire</div>
+        <div class="section-title">Des tubes pour tous</div>
+        <div class="repertoire-artists">
+            <span class="artist-pill">Taylor Swift</span>
+            <span class="artist-pill gold">ABBA</span>
+            <span class="artist-pill">Queen</span>
+            <span class="artist-pill gold">Coldplay</span>
+            <span class="artist-pill">Piaf</span>
+            <span class="artist-pill gold">Aznavour</span>
+            <span class="artist-pill">Bridgerton</span>
+            <span class="artist-pill gold">Mozart</span>
+            <span class="artist-pill">Vivaldi</span>
+            <span class="artist-pill gold">Goldman</span>
+            <span class="artist-pill">Dion</span>
+            <span class="artist-pill gold">Hans Zimmer</span>
+            <span class="artist-pill">Imagine Dragons</span>
+            <span class="artist-pill gold">Ed Sheeran</span>
+            <span class="artist-pill">Grande</span>
+            <span class="artist-pill gold">& bien d'autres…</span>
+        </div>
+    </section>
 
-<!-- LIEU -->
-<section class="lieu-section" id="lieu">
-  <div class="lieu-inner">
-    <div class="lieu-text reveal">
-      <div class="section-label">Le lieu</div>
-      <div class="section-title">Au cœur<br>de Bordeaux</div>
-      <p>Le Théâtre de l'Inox est niché sur la Place de la Bourse — le site le plus photographié de Bordeaux, à deux pas du célèbre Miroir d'eau.</p>
-      <p>Un arrêt naturel dans toute visite de la ville. Aucun transport, aucune réservation — il suffit de passer.</p>
-      <div class="lieu-address">
-        <div class="lieu-address-name">Théâtre de l'Inox</div>
-        <div class="lieu-address-detail">Place de la Bourse · Bordeaux Centre</div>
-      </div>
-    </div>
-    <div class="lieu-map reveal">
-      <div class="lieu-map-placeholder">
-        <span class="lieu-map-icon">📍</span>
-        <div class="lieu-map-text">Place de la Bourse<br>Bordeaux</div>
-        <a href="https://maps.google.com/?q=Place+de+la+Bourse+Bordeaux" target="_blank" class="map-link">Voir sur la carte →</a>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- INFOS PRATIQUES -->
+    <section class="infos" id="infos">
+        <div class="infos-inner">
+            <div class="reveal">
+                <div class="section-label">Infos pratiques</div>
+                <div class="section-title">Tout ce qu'il faut savoir</div>
+            </div>
+            <div class="infos-grid">
+                <div class="info-card reveal">
+                    <span class="info-icon">📅</span>
+                    <div class="info-label">Dates</div>
+                    <div class="info-value">28 juil.<br>au 2 août</div>
+                    <div class="info-detail">Tous les jours</div>
+                </div>
+                <div class="info-card reveal">
+                    <span class="info-icon">⏱</span>
+                    <div class="info-label">Fréquence</div>
+                    <div class="info-value">Toutes les<br>30 minutes</div>
+                    <div class="info-detail">Toute la journée</div>
+                </div>
+                <div class="info-card reveal">
+                    <span class="info-icon">🎟</span>
+                    <div class="info-label">Tarif</div>
+                    <div class="info-value">6 €<br>3 morceaux</div>
+                    <div class="info-detail">Gratuit — 12 ans</div>
+                </div>
+                <div class="info-card reveal">
+                    <span class="info-icon">🎻</span>
+                    <div class="info-label">Formation</div>
+                    <div class="info-value">Quatuor<br>à cordes</div>
+                    <div class="info-detail">Opéra de Bordeaux</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- VOTE / QR -->
-<section class="vote-section" id="vote">
-  <div class="reveal">
-    <div class="section-label">Participez</div>
-    <div class="section-title">Scannez &<br>votez</div>
-    <p style="font-family:'Raleway',serif;font-size:19px;color:#6a3040;line-height:1.7;margin-top:20px;">
-      Sur place, scannez le QR code pour accéder à la playlist du moment et voter pour vos morceaux. Le vote ouvre 10 minutes avant chaque concert.
-    </p>
-  </div>
-  <div class="qr-container reveal">
-    <div class="qr-placeholder">
-      <div class="qr-placeholder-text">QR Code<br>à intégrer<br>ici</div>
-    </div>
-    <div class="qr-label">Scanner pour voter</div>
-  </div>
-</section>
+    <!-- PRIX -->
+    <section class="prix-section reveal">
+        <div class="section-label">Tarifs</div>
+        <div class="section-title">À votre rythme</div>
+        <div class="prix-grid">
+            <div class="prix-card">
+                <span class="prix-card-label">Entrée individuelle</span>
+                <div class="prix-amount">6€</div>
+                <div class="prix-unit">par personne</div>
+                <div class="prix-title">3 morceaux en live</div>
+                <div class="prix-desc">Votez, écoutez, profitez. Payez à l'entrée, sans réservation préalable.</div>
+                <div class="prix-free">★ Gratuit pour les moins de 12 ans</div>
+            </div>
+            <div class="prix-card featured">
+                <span class="prix-card-label">Tarif groupe — croisière</span>
+                <div class="prix-amount">4€</div>
+                <div class="prix-unit">par passager</div>
+                <div class="prix-title">Sur présentation de la carte passager</div>
+                <div class="prix-desc">Tarif exclusif réservé aux passagers de croisière sur présentation de votre carte
+                    d'embarquement à l'entrée.</div>
+                <div class="prix-free">★ Gratuit pour les moins de 12 ans</div>
+            </div>
+        </div>
+    </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div>
-      <div class="footer-brand-title">MINUTE CONCERTS</div>
-      <div class="footer-brand-sub">by Récital Production</div>
-      <div class="footer-social">
-        <a href="https://www.instagram.com/recital_production/" target="_blank" class="social-link">Instagram</a>
-        <a href="https://www.youtube.com/channel/UCxsPhn7yEuFTSw9n8stQTpg" target="_blank" class="social-link">YouTube</a>
-      </div>
-    </div>
-    <div>
-      <div class="footer-col-title">Navigation</div>
-      <div class="footer-col-item">Le concept</div>
-      <div class="footer-col-item">Infos pratiques</div>
-      <div class="footer-col-item">Tarifs</div>
-      <div class="footer-col-item">Le lieu</div>
-    </div>
-    <div>
-      <div class="footer-col-title">Contact</div>
-      <div class="footer-col-item">Partenariats</div>
-      <div class="footer-col-item">Presse</div>
-      <div class="footer-col-item">Récital Production</div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="footer-copyright">© 2025 Récital Production — Tous droits réservés</div>
-    <div class="footer-logos">
-      <span class="footer-logo-text">Récital Production</span>
-      <span style="color:rgba(201,168,76,0.3)">·</span>
-      <span class="footer-logo-text">Ville de Bordeaux</span>
-    </div>
-  </div>
-</footer>
+    <!-- LIEU -->
+    <section class="lieu-section" id="lieu">
+        <div class="lieu-inner">
+            <div class="lieu-text reveal">
+                <div class="section-label">Le lieu</div>
+                <div class="section-title">Au cœur<br>de Bordeaux</div>
+                <p>Le Théâtre de l'Inox est niché sur la Place de la Bourse — le site le plus photographié de Bordeaux,
+                    à deux pas du célèbre Miroir d'eau.</p>
+                <p>Un arrêt naturel dans toute visite de la ville. Aucun transport, aucune réservation — il suffit de
+                    passer.</p>
+                <div class="lieu-address">
+                    <div class="lieu-address-name">Théâtre de l'Inox</div>
+                    <div class="lieu-address-detail">Place de la Bourse · Bordeaux Centre</div>
+                </div>
+            </div>
+            <div class="lieu-map reveal">
+                <div class="lieu-map-placeholder">
+                    <span class="lieu-map-icon">📍</span>
+                    <div class="lieu-map-text">Place de la Bourse<br>Bordeaux</div>
+                    <a href="https://maps.google.com/?q=Place+de+la+Bourse+Bordeaux" target="_blank"
+                        class="map-link">Voir sur la carte →</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<script>
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 80);
-    }
-  });
-}, { threshold: 0.1 });
-reveals.forEach(el => observer.observe(el));
+    <!-- VOTE / QR -->
+    <section class="vote-section" id="vote">
+        <div class="reveal">
+            <div class="section-label">Participez</div>
+            <div class="section-title">Scannez &<br>votez</div>
+            <p style="font-family:'Raleway',serif;font-size:19px;color:#6a3040;line-height:1.7;margin-top:20px;">
+                Sur place, scannez le QR code pour accéder à la playlist du moment et voter pour vos morceaux. Le vote
+                ouvre 10 minutes avant chaque concert.
+            </p>
+        </div>
+        <div class="qr-container reveal">
+            <div class="qr-placeholder">
+                <div class="qr-placeholder-text">QR Code<br>à intégrer<br>ici</div>
+            </div>
+            <div class="qr-label">Scanner pour voter</div>
+        </div>
+    </section>
 
-document.querySelectorAll('nav a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
-  });
-});
-</script>
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <div class="footer-brand-title">MINUTE CONCERTS</div>
+                <div class="footer-brand-sub">by Récital Production</div>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/recital_production/" target="_blank"
+                        class="social-link">Instagram</a>
+                    <a href="https://www.youtube.com/channel/UCxsPhn7yEuFTSw9n8stQTpg" target="_blank"
+                        class="social-link">YouTube</a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-col-title">Navigation</div>
+                <div class="footer-col-item">Le concept</div>
+                <div class="footer-col-item">Infos pratiques</div>
+                <div class="footer-col-item">Tarifs</div>
+                <div class="footer-col-item">Le lieu</div>
+            </div>
+            <div>
+                <div class="footer-col-title">Contact</div>
+                <div class="footer-col-item">Partenariats</div>
+                <div class="footer-col-item">Presse</div>
+                <div class="footer-col-item">Récital Production</div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-copyright">© 2025 Récital Production — Tous droits réservés</div>
+            <div class="footer-logos">
+                <span class="footer-logo-text">Récital Production</span>
+                <span style="color:rgba(201,168,76,0.3)">·</span>
+                <span class="footer-logo-text">Ville de Bordeaux</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ─── Nav (mobile dropdown) ───
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-links');
+
+        function setMenu(open) {
+            navToggle.setAttribute('aria-expanded', String(open));
+            navMenu.classList.toggle('open', open);
+            document.body.classList.toggle('menu-open', open);
+        }
+
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
+            setMenu(!isOpen);
+        });
+
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => setMenu(false));
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') setMenu(false);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                setMenu(false);
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) setMenu(false);
+        });
+
+        // ─── Reveal-on-scroll ───
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(el => observer.observe(el));
+
+        // ─── Smooth anchor scroll ───
+        document.querySelectorAll('nav a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
 </body>
+
 </html>
