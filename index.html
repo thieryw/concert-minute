@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minute Concerts — Bordeaux</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230f1a30'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='32' font-weight='700' text-anchor='middle' fill='%23C9A84C'%3EMC%3C/text%3E%3C/svg%3E">
+<title>Minute Concerts · Bordeaux</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -298,12 +299,12 @@ nav.site-nav {
 
 .hero-eyebrow {
   font-family: 'Raleway', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   letter-spacing: 4px;
-  color: var(--gold);
+  color: var(--gold-light);
   text-transform: uppercase;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   opacity: 0;
   animation: fadeUp 0.8s ease 0.2s forwards;
 }
@@ -822,6 +823,32 @@ nav.site-nav {
   border: 1px solid var(--gold);
 }
 
+.prix-cta {
+  display: block;
+  margin-top: 24px;
+  text-align: center;
+  background: var(--gold);
+  color: var(--bordeaux-dark);
+  font-family: 'Raleway', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.prix-cta:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+.prix-card.featured .prix-cta {
+  background: var(--ivory);
+}
+.prix-card.featured .prix-cta:hover {
+  background: var(--white);
+}
+
 /* ─── LIEU ─── */
 .lieu-section {
   background: var(--bordeaux-dark);
@@ -1155,7 +1182,7 @@ footer::before {
             <li><a href="#concept">Le concept</a></li>
             <li><a href="#infos">Infos</a></li>
             <li><a href="#lieu">Lieu</a></li>
-            <li><a href="#vote" class="cta">Votez</a></li>
+            <li><a href="https://www.billetweb.fr/minute-concerts" target="_blank" rel="noopener" class="cta">Réserver</a></li>
         </ul>
     </nav>
 
@@ -1169,15 +1196,15 @@ footer::before {
             <div class="hero-eyebrow">Récital Production présente</div>
             <div class="hero-title">MINUTE<br>CONCERTS</div>
             <div class="hero-divider"></div>
-            <div class="hero-sub">Les hits interprétés par un quatuor à cordes</div>
+            <div class="hero-sub">Vos hits préférés interprétés par un quatuor à cordes</div>
             <div class="hero-hook">
                 <div class="hero-hook-main">
                     <span class="hero-hook-accent">Vous votez.</span><br>
                     Nous jouons.
                 </div>
-                <div class="hero-hook-sub">Votez · Top 3 joués en live · Toutes les 30 minutes</div>
+                <div class="hero-hook-sub">Votez · Top 3 joué en live · Toutes les 30 minutes</div>
             </div>
-            <a href="#vote" class="hero-cta">Voir le programme →</a>
+            <a href="https://www.billetweb.fr/minute-concerts" target="_blank" rel="noopener" class="hero-cta">Réserver ma place →</a>
         </div>
         <div class="hero-scroll">
             <span>Découvrir</span>
@@ -1188,7 +1215,7 @@ footer::before {
     <!-- DATES BANNER -->
     <div class="dates-banner">
         <div class="dates-banner-inner">
-            <div class="dates-item">📅 28 juillet — 2 août 2025</div>
+            <div class="dates-item">📅 28 juillet au 2 août 2025</div>
             <div class="dates-dot"></div>
             <div class="dates-item">📍 Théâtre de l'Inox · Place de la Bourse</div>
             <div class="dates-dot"></div>
@@ -1205,16 +1232,16 @@ footer::before {
                 <div class="section-label">Le concept</div>
                 <div class="section-title">Un concert<br>comme nulle<br>part ailleurs</div>
                 <p>Pour la première fois à Bordeaux, c'est vous qui décidez du programme. Choisissez vos morceaux
-                    favoris, votez — et les trois plus plébiscités sont joués en direct par un quatuor à cordes
+                    favoris, votez, et les trois morceaux en tête sont joués en direct par un quatuor à cordes
                     professionnel.</p>
-                <p>Pop, classique, cinéma, comédie musicale — un répertoire qui traverse les genres et les générations,
+                <p>Pop, Rock, Classique, Cinéma : un répertoire qui traverse les genres et les générations,
                     réarrangé avec élégance sur instruments acoustiques.</p>
-                <p>Concerts toutes les 30 minutes, toute la journée. Sans réservation. Sans prétention.</p>
+                <p>Concerts toutes les 30 minutes.</p>
             </div>
             <div class="concept-visual">
                 <div class="concept-card">
                     <div class="concept-card-quote">"</div>
-                    <div class="concept-card-text">La musique classique n'a jamais été aussi vivante — ni aussi à vous.
+                    <div class="concept-card-text">La musique classique n'a jamais été aussi vivante, ni aussi à vous.
                     </div>
                     <div class="concept-card-detail">Musiciens de l'Opéra de Bordeaux</div>
                 </div>
@@ -1235,21 +1262,21 @@ footer::before {
                     <div class="step-number">01</div>
                     <div class="step-title">Vous votez</div>
                     <div class="step-desc">Scannez le QR code à l'entrée et choisissez vos 3 morceaux préférés dans
-                        notre playlist. Taylor Swift, ABBA, Mozart, Vivaldi — la liste est longue.</div>
+                        notre playlist. Taylor Swift, ABBA, Mozart, Vivaldi, et bien d'autres encore.</div>
                 </div>
                 <div class="step-card reveal">
                     <div class="step-accent"></div>
                     <div class="step-number">02</div>
                     <div class="step-title">On joue</div>
-                    <div class="step-desc">Les 3 morceaux les plus votés sont interprétés en live par notre quatuor à
-                        cordes. Le public a parlé — les musiciens jouent.</div>
+                    <div class="step-desc">Les 3 morceaux en tête sont interprétés en live par notre quatuor à
+                        cordes.<br>Vous votez, Nous jouons.</div>
                 </div>
                 <div class="step-card reveal">
                     <div class="step-accent"></div>
                     <div class="step-number">03</div>
                     <div class="step-title">On recommence</div>
                     <div class="step-desc">Toutes les 30 minutes, un nouveau vote, un nouveau concert. Restez, repartez,
-                        revenez — chaque session est unique.</div>
+                        revenez : chaque session est unique.</div>
                 </div>
             </div>
         </div>
@@ -1274,7 +1301,7 @@ footer::before {
             <span class="artist-pill gold">Hans Zimmer</span>
             <span class="artist-pill">Imagine Dragons</span>
             <span class="artist-pill gold">Ed Sheeran</span>
-            <span class="artist-pill">Grande</span>
+            <span class="artist-pill">Ariana Grande</span>
             <span class="artist-pill gold">& bien d'autres…</span>
         </div>
     </section>
@@ -1297,19 +1324,19 @@ footer::before {
                     <span class="info-icon">⏱</span>
                     <div class="info-label">Fréquence</div>
                     <div class="info-value">Toutes les<br>30 minutes</div>
-                    <div class="info-detail">Toute la journée</div>
+                    <div class="info-detail">De 17h à 22h</div>
                 </div>
                 <div class="info-card reveal">
                     <span class="info-icon">🎟</span>
                     <div class="info-label">Tarif</div>
                     <div class="info-value">6 €<br>3 morceaux</div>
-                    <div class="info-detail">Gratuit — 12 ans</div>
+                    <div class="info-detail">Gratuit pour les -12 ans</div>
                 </div>
                 <div class="info-card reveal">
                     <span class="info-icon">🎻</span>
                     <div class="info-label">Formation</div>
                     <div class="info-value">Quatuor<br>à cordes</div>
-                    <div class="info-detail">Opéra de Bordeaux</div>
+                    <div class="info-detail">Musiciens de l'Opéra de Bordeaux</div>
                 </div>
             </div>
         </div>
@@ -1325,11 +1352,12 @@ footer::before {
                 <div class="prix-amount">6€</div>
                 <div class="prix-unit">par personne</div>
                 <div class="prix-title">3 morceaux en live</div>
-                <div class="prix-desc">Votez, écoutez, profitez. Payez à l'entrée, sans réservation préalable.</div>
+                <div class="prix-desc">Votez, écoutez, profitez. Réservez en ligne ou payez directement à l'entrée. Votre billet est valable tout au long de la semaine et n'est pas nominatif.</div>
                 <div class="prix-free">★ Gratuit pour les moins de 12 ans</div>
+                <a href="https://www.billetweb.fr/minute-concerts" target="_blank" rel="noopener" class="prix-cta">Réserver en ligne →</a>
             </div>
             <div class="prix-card featured">
-                <span class="prix-card-label">Tarif groupe — croisière</span>
+                <span class="prix-card-label">Tarif groupe croisière</span>
                 <div class="prix-amount">4€</div>
                 <div class="prix-unit">par passager</div>
                 <div class="prix-title">Sur présentation de la carte passager</div>
@@ -1346,9 +1374,9 @@ footer::before {
             <div class="lieu-text reveal">
                 <div class="section-label">Le lieu</div>
                 <div class="section-title">Au cœur<br>de Bordeaux</div>
-                <p>Le Théâtre de l'Inox est niché sur la Place de la Bourse — le site le plus photographié de Bordeaux,
+                <p>Le Théâtre de l'Inox est niché sur la Place de la Bourse, le site le plus photographié de Bordeaux,
                     à deux pas du célèbre Miroir d'eau.</p>
-                <p>Un arrêt naturel dans toute visite de la ville. Aucun transport, aucune réservation — il suffit de
+                <p>Un arrêt naturel dans toute visite de la ville. Aucun transport : il suffit de
                     passer.</p>
                 <div class="lieu-address">
                     <div class="lieu-address-name">Théâtre de l'Inox</div>
@@ -1373,7 +1401,7 @@ footer::before {
             <div class="section-title">Scannez &<br>votez</div>
             <p style="font-family:'Raleway',serif;font-size:19px;color:#6a3040;line-height:1.7;margin-top:20px;">
                 Sur place, scannez le QR code pour accéder à la playlist du moment et voter pour vos morceaux. Le vote
-                ouvre 10 minutes avant chaque concert.
+                démarre 15 minutes avant chaque concert.
             </p>
         </div>
         <div class="qr-container reveal">
@@ -1412,7 +1440,7 @@ footer::before {
             </div>
         </div>
         <div class="footer-bottom">
-            <div class="footer-copyright">© 2025 Récital Production — Tous droits réservés</div>
+            <div class="footer-copyright">© 2025 Récital Production. Tous droits réservés</div>
             <div class="footer-logos">
                 <span class="footer-logo-text">Récital Production</span>
                 <span style="color:rgba(201,168,76,0.3)">·</span>
