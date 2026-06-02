@@ -735,26 +735,52 @@ nav.site-nav {
   padding: 100px 24px;
   max-width: 1100px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .prix-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
   margin-top: 48px;
 }
 
 .prix-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 64px;
+  align-items: start;
   border: 1px solid rgba(26,39,68,0.15);
-  padding: 48px 40px;
+  padding: 56px 64px;
   position: relative;
   transition: transform 0.3s ease;
+  max-width: 860px;
+  margin: 0 auto;
 }
 .prix-card:hover { transform: translateY(-4px); }
 
-.prix-card.featured {
+.prix-card-featured {
   background: var(--bordeaux);
   border-color: transparent;
+}
+
+.prix-card-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-right: 64px;
+  border-right: 1px solid rgba(26,39,68,0.12);
+}
+
+@media (max-width: 768px) {
+  .prix-card {
+    grid-template-columns: 1fr;
+    gap: 32px 0;
+    padding: 40px 28px;
+  }
+  .prix-card-left {
+    padding-right: 0;
+    border-right: none;
+    border-bottom: 1px solid rgba(26,39,68,0.12);
+    padding-bottom: 28px;
+  }
 }
 
 .prix-card-label {
@@ -1348,23 +1374,17 @@ footer::before {
         <div class="section-title">À votre rythme</div>
         <div class="prix-grid">
             <div class="prix-card">
-                <span class="prix-card-label">Entrée individuelle</span>
-                <div class="prix-amount">6€</div>
-                <div class="prix-unit">par personne</div>
-                <div class="prix-title">3 morceaux en live</div>
-                <div class="prix-desc">Votez, écoutez, profitez. Réservez en ligne ou payez directement à l'entrée. Votre billet est valable tout au long de la semaine et n'est pas nominatif.</div>
-                <div class="prix-free">★ Gratuit pour les moins de 12 ans</div>
-                <a href="https://www.billetweb.fr/minute-concerts" target="_blank" rel="noopener" class="prix-cta">Réserver en ligne →</a>
-            </div>
-            <div class="prix-card featured">
-                <span class="prix-card-label">Tarif groupe croisière</span>
-                <div class="prix-amount">4€</div>
-                <div class="prix-unit">par passager</div>
-                <div class="prix-title">Sur présentation de la carte passager</div>
-                <div class="prix-desc">Tarif exclusif réservé aux passagers de croisière sur présentation de votre carte
-                    d'embarquement à l'entrée.</div>
-                <div class="prix-free">★ Gratuit pour les moins de 12 ans</div>
-                <a href="https://www.billetweb.fr/minute-concerts" target="_blank" rel="noopener" class="prix-cta">Réserver en ligne →</a>
+                <div class="prix-card-left">
+                    <span class="prix-card-label">Entrée individuelle</span>
+                    <div class="prix-amount">6€</div>
+                    <div class="prix-unit">par personne</div>
+                    <div class="prix-free">★ Gratuit pour les moins de 12 ans</div>
+                </div>
+                <div class="prix-card-right">
+                    <div class="prix-title">3 morceaux en live</div>
+                    <div class="prix-desc">Votez, écoutez, profitez. Réservez en ligne ou payez directement à l'entrée. Votre billet est valable tout au long de la semaine et n'est pas nominatif.</div>
+                    <a href="https://www.billetweb.fr/minute-concerts" target="_blank" rel="noopener" class="prix-cta">Réserver en ligne →</a>
+                </div>
             </div>
         </div>
     </section>
