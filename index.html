@@ -206,8 +206,9 @@ nav.site-nav {
 .nav-toggle[aria-expanded="true"] span:nth-child(3) { top: 17px; transform: rotate(-45deg); }
 
 @media (max-width: 768px) {
-  nav.site-nav { padding: 16px 20px; display: flex; justify-content: space-between; }
-  .nav-toggle { display: block; }
+  nav.site-nav { padding: 16px 20px; display: flex; gap: 12px; }
+  .nav-brand { flex: 1; min-width: 0; font-size: clamp(14px, 4vw, 20px); letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .nav-toggle { display: block; flex-shrink: 0; }
 
   .nav-links {
     position: fixed;
@@ -1230,9 +1231,8 @@ footer::before {
 }
 @media (max-width: 768px) {
   .lang-switcher {
-    position: absolute;
-    top: 18px;
-    right: 64px;
+    position: static;
+    flex-shrink: 0;
   }
 }
 
