@@ -992,52 +992,6 @@ nav.site-nav {
   margin: 0 auto;
 }
 
-.qr-container {
-  margin: 48px auto 0;
-  display: inline-block;
-  background: var(--bordeaux);
-  padding: 40px;
-  position: relative;
-}
-
-.qr-container::before {
-  content: '';
-  position: absolute;
-  top: -3px; left: -3px; right: -3px; bottom: -3px;
-  border: 1px solid var(--gold);
-  pointer-events: none;
-}
-
-.qr-placeholder {
-  width: 180px;
-  height: 180px;
-  background: var(--ivory);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 24px;
-}
-
-.qr-placeholder-text {
-  font-family: 'Raleway', sans-serif;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  color: var(--bordeaux);
-  text-transform: uppercase;
-  text-align: center;
-  padding: 12px;
-}
-
-.qr-label {
-  font-family: 'Raleway', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  color: var(--gold);
-  text-transform: uppercase;
-}
-
 /* ─── FOOTER ─── */
 footer {
   background: var(--text-dark);
@@ -1118,6 +1072,16 @@ footer::before {
   color: rgba(253,246,236,0.6);
   margin-bottom: 10px;
   cursor: default;
+}
+
+.footer-nav-link {
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.footer-nav-link:hover {
+  color: var(--gold);
 }
 
 .footer-bottom {
@@ -1374,7 +1338,7 @@ footer::before {
     </section>
 
     <!-- PRIX -->
-    <section class="prix-section reveal">
+    <section class="prix-section reveal" id="prix">
         <div class="section-label">Pricing</div>
         <div class="section-title">At your own pace</div>
         <div class="prix-grid">
@@ -1423,14 +1387,8 @@ footer::before {
             <div class="section-label">Get involved</div>
             <div class="section-title">Scan &<br>vote</div>
             <p style="font-family:'Raleway',serif;font-size:19px;color:#6a3040;line-height:1.7;margin-top:20px;">
-                On site, scan the QR code to access the current playlist and vote for your songs. Voting opens 15 minutes before each concert.
+                On site, scan the QR code to access the current playlist and vote for your songs.
             </p>
-        </div>
-        <div class="qr-container reveal">
-            <div class="qr-placeholder">
-                <div class="qr-placeholder-text">QR Code<br>to be added<br>here</div>
-            </div>
-            <div class="qr-label">Scan to vote</div>
         </div>
     </section>
 
@@ -1447,16 +1405,16 @@ footer::before {
             </div>
             <div>
                 <div class="footer-col-title">Navigation</div>
-                <div class="footer-col-item">The concept</div>
-                <div class="footer-col-item">Practical info</div>
-                <div class="footer-col-item">Pricing</div>
-                <div class="footer-col-item">The venue</div>
+                <a href="#concept" class="footer-col-item footer-nav-link">The concept</a>
+                <a href="#infos" class="footer-col-item footer-nav-link">Practical info</a>
+                <a href="#prix" class="footer-col-item footer-nav-link">Pricing</a>
+                <a href="#lieu" class="footer-col-item footer-nav-link">The venue</a>
             </div>
             <div>
                 <div class="footer-col-title">Contact</div>
                 <div class="footer-col-item">Partnerships</div>
                 <div class="footer-col-item">Press</div>
-                <div class="footer-col-item">Récital Production</div>
+                <a href="https://recital-production.fr" target="_blank" rel="noopener" class="footer-col-item footer-nav-link">Récital Production</a>
             </div>
         </div>
         <div class="footer-bottom">
@@ -1516,7 +1474,7 @@ footer::before {
         reveals.forEach(el => observer.observe(el));
 
         // ─── Smooth anchor scroll ───
-        document.querySelectorAll('nav a[href^="#"]').forEach(a => {
+        document.querySelectorAll('nav a[href^="#"], .footer-nav-link[href^="#"]').forEach(a => {
             a.addEventListener('click', e => {
                 e.preventDefault();
                 document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
