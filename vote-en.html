@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Votez pour le programme</title>
+<title>Vote for the programme</title>
 <style>
   :root { --accent: #6b4f8a; }
   * { box-sizing: border-box; }
@@ -34,37 +34,41 @@
     if (sessionStorage.getItem('lang-redirected')) return;
     sessionStorage.setItem('lang-redirected', '1');
     var lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
-    if (!lang.startsWith('fr')) {
-      window.location.replace('vote-en.html');
+    if (lang.startsWith('fr')) {
+      window.location.replace('vote.html');
     }
   })();
 </script>
 </head>
 <body>
 <div class="lang-switcher">
-  <a href="vote.html" class="active">FR</a>
-  <a href="vote-en.html">EN</a>
+  <a href="vote.html">FR</a>
+  <a href="vote-en.html" class="active">EN</a>
 </div>
 <div id="app">
-  <h1>Votez pour 3 morceaux</h1>
-  <p class="instructions">Sélectionnez exactement 3 titres, puis validez. (<span id="selected">0</span>/3)</p>
+  <h1>Vote for 3 pieces</h1>
+  <p class="instructions">Select exactly 3 titles, then submit. (<span id="selected">0</span>/3)</p>
   <ul id="songs"></ul>
-  <button id="submit" disabled>Valider mon vote</button>
+  <button id="submit" disabled>Submit my vote</button>
 </div>
 
 <script>
-// ========== CONFIG : à remplir ==========
+// ========== CONFIG ==========
+// Must match vote.html exactly (same Supabase project + same CONCERT_ID).
 const SUPABASE_URL      = "https://emcntansodqcrjiwsmpg.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_XtiLwWVgGoIoR29HUBaAYQ_qDoVW0AK";
-const CONCERT_ID        = "bordeaux-2026-01";   // change à chaque concert
+const CONCERT_ID        = "bordeaux-2026-01";
+
+// IMPORTANT: keep every `id` IDENTICAL to vote.html — the id is the vote key.
+// Only translate the `title` shown to the audience.
 const SONGS = [
-  { id: "ravel-pavane",        title: "Ravel — Pavane pour une infante défunte" },
-  { id: "faure-apres-un-reve", title: "Fauré — Après un rêve" },
-  { id: "tailleferre-quatuor", title: "Tailleferre — Quatuor à cordes" },
-  // ... ajoutez tous vos titres ici (id sans espaces ni accents)
+  { id: "ravel-pavane",        title: "Ravel — Pavane for a Dead Princess" },
+  { id: "faure-apres-un-reve", title: "Fauré — After a Dream" },
+  { id: "tailleferre-quatuor", title: "Tailleferre — String Quartet" },
+  // ... add your titles here (id must match the French page)
 ];
 const MAX = 3;
-// ========================================
+// ============================
 
 const list = document.getElementById("songs");
 const submitBtn = document.getElementById("submit");
@@ -72,7 +76,7 @@ const selectedCountEl = document.getElementById("selected");
 const selected = new Set();
 
 if (localStorage.getItem("voted-" + CONCERT_ID)) {
-  showDone("Vous avez déjà voté depuis cet appareil. Merci !");
+  showDone("You have already voted from this device. Thank you!");
 }
 
 SONGS.forEach(song => {
@@ -104,7 +108,7 @@ function onToggle(cb, label) {
 
 submitBtn.addEventListener("click", async () => {
   submitBtn.disabled = true;
-  submitBtn.textContent = "Envoi…";
+  submitBtn.textContent = "Sending…";
   const ballotId = crypto.randomUUID();
   const rows = [...selected].map(song_id => ({
     concert_id: CONCERT_ID, ballot_id: ballotId, song_id
@@ -116,17 +120,17 @@ submitBtn.addEventListener("click", async () => {
         "apikey": SUPABASE_ANON_KEY,
         "Authorization": "Bearer " + SUPABASE_ANON_KEY,
         "Content-Type": "application/json",
-        "Prefer": "return=minimal"   // ne tente pas de relire la ligne (bloqué par RLS)
+        "Prefer": "return=minimal"
       },
       body: JSON.stringify(rows)
     });
     if (!res.ok) throw new Error(await res.text());
     localStorage.setItem("voted-" + CONCERT_ID, "1");
-    showDone("Merci, votre vote est enregistré !");
+    showDone("Thank you, your vote has been recorded!");
   } catch (e) {
     submitBtn.disabled = false;
-    submitBtn.textContent = "Valider mon vote";
-    alert("Erreur lors de l'envoi. Réessayez.\n\n" + e.message);
+    submitBtn.textContent = "Submit my vote";
+    alert("Something went wrong. Please try again.\n\n" + e.message);
   }
 });
 
