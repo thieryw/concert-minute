@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Votez pour le programme</title>
+<style>
+  :root { --accent: #6b4f8a; }
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, -apple-system, sans-serif; max-width: 600px;
+         margin: 0 auto; padding: 24px; color: #1a1a1a; line-height: 1.4; }
+  h1 { font-size: 1.4rem; margin-bottom: 4px; }
+  p.instructions { color: #555; margin-top: 4px; }
+  ul { list-style: none; padding: 0; }
+  li { margin: 8px 0; }
+  label { display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+          border: 1px solid #ddd; border-radius: 10px; cursor: pointer;
+          transition: border-color .15s, background .15s; }
+  label.checked { border-color: var(--accent); background: #f5f0fa; }
+  label.disabled { opacity: .4; cursor: not-allowed; }
+  input[type=checkbox] { width: 20px; height: 20px; accent-color: var(--accent); flex: none; }
+  button { width: 100%; padding: 16px; font-size: 1rem; border: none; border-radius: 10px;
+           background: var(--accent); color: #fff; cursor: pointer; margin-top: 16px; }
+  button:disabled { background: #ccc; cursor: not-allowed; }
+  .done { text-align: center; padding: 48px 0; }
+  .done .check { font-size: 3rem; color: var(--accent); }
+</style>
+</head>
+<body>
+<div id="app">
+  <h1>Votez pour 3 morceaux</h1>
+  <p class="instructions">Sélectionnez exactement 3 titres, puis validez. (<span id="selected">0</span>/3)</p>
+  <ul id="songs"></ul>
+  <button id="submit" disabled>Valider mon vote</button>
+</div>
+
+<script>
+// ========== CONFIG : à remplir ==========
+const SUPABASE_URL      = "https://emcntansodqcrjiwsmpg.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_XtiLwWVgGoIoR29HUBaAYQ_qDoVW0AK";
+const CONCERT_ID        = "bordeaux-2026-01";   // change à chaque concert
+const SONGS = [
+  { id: "ravel-pavane",        title: "Ravel — Pavane pour une infante défunte" },
+  { id: "faure-apres-un-reve", title: "Fauré — Après un rêve" },
+  { id: "tailleferre-quatuor", title: "Tailleferre — Quatuor à cordes" },
+  // ... ajoutez tous vos titres ici (id sans espaces ni accents)
+];
+const MAX = 3;
+// ========================================
+
+const list = document.getElementById("songs");
+const submitBtn = document.getElementById("submit");
+const selectedCountEl = document.getElementById("selected");
+const selected = new Set();
+
+if (localStorage.getItem("voted-" + CONCERT_ID)) {
+  showDone("Vous avez déjà voté depuis cet appareil. Merci !");
+}
+
+SONGS.forEach(song => {
+  const li = document.createElement("li");
+  const label = document.createElement("label");
+  const cb = document.createElement("input");
+  cb.type = "checkbox";
+  cb.value = song.id;
+  cb.addEventListener("change", () => onToggle(cb, label));
+  label.appendChild(cb);
+  label.appendChild(document.createTextNode(song.title));
+  li.appendChild(label);
+  list.appendChild(li);
+});
+
+function onToggle(cb, label) {
+  if (cb.checked) selected.add(cb.value); else selected.delete(cb.value);
+  label.classList.toggle("checked", cb.checked);
+  selectedCountEl.textContent = selected.size;
+  const atMax = selected.size >= MAX;
+  document.querySelectorAll("#songs input").forEach(box => {
+    if (!box.checked) {
+      box.disabled = atMax;
+      box.closest("label").classList.toggle("disabled", atMax);
+    }
+  });
+  submitBtn.disabled = selected.size !== MAX;
+}
+
+submitBtn.addEventListener("click", async () => {
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Envoi…";
+  const ballotId = crypto.randomUUID();
+  const rows = [...selected].map(song_id => ({
+    concert_id: CONCERT_ID, ballot_id: ballotId, song_id
+  }));
+  try {
+    const res = await fetch(SUPABASE_URL + "/rest/v1/votes", {
+      method: "POST",
+      headers: {
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"   // ne tente pas de relire la ligne (bloqué par RLS)
+      },
+      body: JSON.stringify(rows)
+    });
+    if (!res.ok) throw new Error(await res.text());
+    localStorage.setItem("voted-" + CONCERT_ID, "1");
+    showDone("Merci, votre vote est enregistré !");
+  } catch (e) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Valider mon vote";
+    alert("Erreur lors de l'envoi. Réessayez.\n\n" + e.message);
+  }
+});
+
+function showDone(msg) {
+  document.getElementById("app").innerHTML =
+    '<div class="done"><div class="check">✓</div><p>' + msg + '</p></div>';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Résultats du vote</title>
+<style>
+  :root { --accent: #6b4f8a; }
+  body { font-family: system-ui, -apple-system, sans-serif; max-width: 660px;
+         margin: 0 auto; padding: 24px; color: #1a1a1a; }
+  h1 { font-size: 1.4rem; margin-bottom: 2px; }
+  .meta { color: #777; font-size: .85rem; margin-top: 0; }
+  .row { margin: 12px 0; }
+  .toplabel { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: .95rem; }
+  .toplabel .n { font-weight: 600; color: var(--accent); }
+  .bar-bg { background: #eee; border-radius: 6px; overflow: hidden; height: 24px; }
+  .bar { height: 100%; background: var(--accent); width: 0; transition: width .4s ease; }
+  .winner .bar { background: #4a3663; }
+</style>
+</head>
+<body>
+<h1>Résultats — <span id="cid"></span></h1>
+<p class="meta">≈ <span id="ballots">0</span> votant(s) · mise à jour automatique</p>
+<div id="results">Chargement…</div>
+
+<script>
+// ========== CONFIG : à remplir (mêmes valeurs que vote.html) ==========
+const SUPABASE_URL      = "https://emcntansodqcrjiwsmpg.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_XtiLwWVgGoIoR29HUBaAYQ_qDoVW0AK";
+const CONCERT_ID        = "bordeaux-2026-01";
+// Facultatif : afficher les titres complets au lieu des id
+const TITLES = {
+  "ravel-pavane":        "Ravel — Pavane",
+  "faure-apres-un-reve": "Fauré — Après un rêve",
+  "tailleferre-quatuor": "Tailleferre — Quatuor",
+};
+// =====================================================================
+
+document.getElementById("cid").textContent = CONCERT_ID;
+
+async function load() {
+  try {
+    const res = await fetch(SUPABASE_URL + "/rest/v1/rpc/get_vote_counts", {
+      method: "POST",
+      headers: {
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ p_concert_id: CONCERT_ID })
+    });
+    render(await res.json());
+  } catch (e) {
+    document.getElementById("results").textContent = "Erreur de chargement.";
+  }
+}
+
+function render(data) {
+  const box = document.getElementById("results");
+  if (!Array.isArray(data) || !data.length) {
+    box.textContent = "Aucun vote pour l'instant."; return;
+  }
+  const max = Math.max(...data.map(d => Number(d.votes)));
+  const total = data.reduce((s, d) => s + Number(d.votes), 0);
+  document.getElementById("ballots").textContent = Math.round(total / 3);
+  box.innerHTML = data.map((d, i) => {
+    const title = TITLES[d.song_id] || d.song_id;
+    const pct = max ? (Number(d.votes) / max * 100) : 0;
+    return '<div class="row ' + (i === 0 ? 'winner' : '') + '">' +
+      '<div class="toplabel"><span>' + title + '</span>' +
+      '<span class="n">' + d.votes + '</span></div>' +
+      '<div class="bar-bg"><div class="bar" style="width:' + pct + '%"></div></div></div>';
+  }).join("");
+}
+
+load();
+setInterval(load, 5000);   // rafraîchit toutes les 5 s
+</script>
+</body>
+</html>
