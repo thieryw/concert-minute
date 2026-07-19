@@ -24,6 +24,9 @@
   button:disabled { background: #ccc; cursor: not-allowed; }
   .done { text-align: center; padding: 48px 0; }
   .done .check { font-size: 3rem; color: var(--accent); }
+  .gate { text-align: center; padding: 48px 0; color: #555; }
+  .gate .icon { font-size: 2.5rem; color: var(--accent); }
+  .gate strong { display: block; color: #1a1a1a; margin-bottom: 6px; }
   .lang-switcher { display: flex; justify-content: flex-end; align-items: center; gap: 6px; margin-bottom: 12px; }
   .lang-switcher a { font-size: .8rem; font-weight: 700; letter-spacing: 1px; text-decoration: none;
                      padding: 4px 8px; border: 1px solid #ddd; border-radius: 6px; color: #999; }
@@ -35,7 +38,8 @@
     sessionStorage.setItem('lang-redirected', '1');
     var lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
     if (!lang.startsWith('fr')) {
-      window.location.replace('vote-en.html');
+      // carry the access token (hash fragment) across the redirect
+      window.location.replace('vote-en.html' + window.location.hash);
     }
   })();
 </script>
@@ -57,6 +61,9 @@
 const SUPABASE_URL      = "https://emcntansodqcrjiwsmpg.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_XtiLwWVgGoIoR29HUBaAYQ_qDoVW0AK";
 const CONCERT_ID        = "bordeaux-2026-01";   // change à chaque concert
+// Le jeton d'accès n'est PAS stocké ici : il vit dans la table public.concerts.
+// Cette page se contente de transmettre celui que le QR code a apporté.
+// Le QR doit pointer vers :  .../vote.html#k=<jeton du concert>
 const SONGS = [
   { id: "ravel-pavane",        title: "Ravel — Pavane pour une infante défunte" },
   { id: "faure-apres-un-reve", title: "Fauré — Après un rêve" },
@@ -71,7 +78,19 @@ const submitBtn = document.getElementById("submit");
 const selectedCountEl = document.getElementById("selected");
 const selected = new Set();
 
-if (localStorage.getItem("voted-" + CONCERT_ID)) {
+// Conserve le jeton quand on bascule FR <-> EN via le sélecteur de langue.
+document.querySelectorAll(".lang-switcher a").forEach(a => {
+  a.href = a.getAttribute("href").split("#")[0] + location.hash;
+});
+
+// Le jeton apporté par le QR code. Sa VALIDITÉ est vérifiée par le serveur,
+// pas ici : on regarde seulement s'il y en a un, pour éviter d'afficher un
+// bulletin qui serait de toute façon refusé.
+const TOKEN = new URLSearchParams(location.hash.slice(1)).get("k") || "";
+
+if (!TOKEN) {
+  showGate();
+} else if (localStorage.getItem("voted-" + CONCERT_ID)) {
   showDone("Vous avez déjà voté depuis cet appareil. Merci !");
 }
 
@@ -105,24 +124,34 @@ function onToggle(cb, label) {
 submitBtn.addEventListener("click", async () => {
   submitBtn.disabled = true;
   submitBtn.textContent = "Envoi…";
-  const ballotId = crypto.randomUUID();
-  const rows = [...selected].map(song_id => ({
-    concert_id: CONCERT_ID, ballot_id: ballotId, song_id
-  }));
   try {
-    const res = await fetch(SUPABASE_URL + "/rest/v1/votes", {
+    // Tout est validé côté serveur : jeton, ouverture du vote, exactement 3
+    // titres, sans doublon, appartenant bien au programme de ce concert.
+    const res = await fetch(SUPABASE_URL + "/rest/v1/rpc/cast_ballot", {
       method: "POST",
       headers: {
         "apikey": SUPABASE_ANON_KEY,
         "Authorization": "Bearer " + SUPABASE_ANON_KEY,
-        "Content-Type": "application/json",
-        "Prefer": "return=minimal"   // ne tente pas de relire la ligne (bloqué par RLS)
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(rows)
+      body: JSON.stringify({
+        p_concert_id: CONCERT_ID,
+        p_token: TOKEN,
+        p_song_ids: [...selected]
+      })
     });
     if (!res.ok) throw new Error(await res.text());
-    localStorage.setItem("voted-" + CONCERT_ID, "1");
-    showDone("Merci, votre vote est enregistré !");
+    const status = await res.json();
+    if (status === "ok") {
+      localStorage.setItem("voted-" + CONCERT_ID, "1");
+      showDone("Merci, votre vote est enregistré !");
+    } else if (status === "closed") {
+      showGate("<strong>Le vote n'est pas ouvert</strong>" +
+               "Le vote se fait pendant le concert.");
+    } else {
+      showGate("<strong>Lien de vote non valide</strong>" +
+               "Scannez le QR code imprimé sur le programme.");
+    }
   } catch (e) {
     submitBtn.disabled = false;
     submitBtn.textContent = "Valider mon vote";
@@ -133,6 +162,14 @@ submitBtn.addEventListener("click", async () => {
 function showDone(msg) {
   document.getElementById("app").innerHTML =
     '<div class="done"><div class="check">✓</div><p>' + msg + '</p></div>';
+}
+
+function showGate(html) {
+  document.getElementById("app").innerHTML =
+    '<div class="gate"><div class="icon">▣</div><p>' +
+    (html || "<strong>Vote réservé au public du concert</strong>" +
+             "Scannez le QR code imprimé sur le programme pour accéder au vote.") +
+    '</p></div>';
 }
 </script>
 </body>
