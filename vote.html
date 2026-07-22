@@ -60,10 +60,13 @@
 // ========== CONFIG : à remplir ==========
 const SUPABASE_URL      = "https://emcntansodqcrjiwsmpg.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_XtiLwWVgGoIoR29HUBaAYQ_qDoVW0AK";
-const CONCERT_ID        = "bordeaux-2026-01";   // change à chaque concert
-// Le jeton d'accès n'est PAS stocké ici : il vit dans la table public.concerts.
-// Cette page se contente de transmettre celui que le QR code a apporté.
-// Le QR doit pointer vers :  .../vote.html#k=<jeton du concert>
+// L'identifiant du concert ET le jeton voyagent dans le fragment d'URL du QR
+// (#c=<id>&k=<jeton>). Ce fichier ne change donc JAMAIS d'un concert à l'autre :
+// pour un nouveau concert, on crée une ligne dans public.concerts et on
+// régénère le QR — aucun redéploiement. Le jeton n'est pas stocké ici.
+// Le QR doit pointer vers :  .../vote.html#c=<id du concert>&k=<jeton>
+const HASH_PARAMS       = new URLSearchParams(location.hash.slice(1));
+const CONCERT_ID        = HASH_PARAMS.get("c") || "";
 const SONGS = [
   { id: "ravel-pavane",        title: "Ravel — Pavane pour une infante défunte" },
   { id: "faure-apres-un-reve", title: "Fauré — Après un rêve" },
@@ -86,9 +89,9 @@ document.querySelectorAll(".lang-switcher a").forEach(a => {
 // Le jeton apporté par le QR code. Sa VALIDITÉ est vérifiée par le serveur,
 // pas ici : on regarde seulement s'il y en a un, pour éviter d'afficher un
 // bulletin qui serait de toute façon refusé.
-const TOKEN = new URLSearchParams(location.hash.slice(1)).get("k") || "";
+const TOKEN = HASH_PARAMS.get("k") || "";
 
-if (!TOKEN) {
+if (!TOKEN || !CONCERT_ID) {
   showGate();
 } else if (localStorage.getItem("voted-" + CONCERT_ID)) {
   showDone("Vous avez déjà voté depuis cet appareil. Merci !");

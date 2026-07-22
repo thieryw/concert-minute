@@ -61,10 +61,13 @@
 // Must match vote.html exactly (same Supabase project + same CONCERT_ID).
 const SUPABASE_URL      = "https://emcntansodqcrjiwsmpg.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_XtiLwWVgGoIoR29HUBaAYQ_qDoVW0AK";
-const CONCERT_ID        = "bordeaux-2026-01";
-// The access token is NOT stored here: it lives in the public.concerts table.
-// This page only forwards whatever token the QR code carried in.
-// The QR must point at:  .../vote-en.html#k=<this concert's token>
+// The concert id AND the token travel in the QR URL fragment
+// (#c=<id>&k=<token>), so this file never changes between concerts: for a new
+// concert you add a row to public.concerts and regenerate the QR — no redeploy.
+// The token is not stored here. The QR must point at:
+//   .../vote-en.html#c=<concert id>&k=<token>
+const HASH_PARAMS       = new URLSearchParams(location.hash.slice(1));
+const CONCERT_ID        = HASH_PARAMS.get("c") || "";
 
 // IMPORTANT: keep every `id` IDENTICAL to vote.html — the id is the vote key.
 // Only translate the `title` shown to the audience.
@@ -90,9 +93,9 @@ document.querySelectorAll(".lang-switcher a").forEach(a => {
 // The token carried in by the QR code. Its VALIDITY is checked by the server,
 // not here: we only look at whether one is present, to avoid showing a ballot
 // that would be rejected anyway.
-const TOKEN = new URLSearchParams(location.hash.slice(1)).get("k") || "";
+const TOKEN = HASH_PARAMS.get("k") || "";
 
-if (!TOKEN) {
+if (!TOKEN || !CONCERT_ID) {
   showGate();
 } else if (localStorage.getItem("voted-" + CONCERT_ID)) {
   showDone("You have already voted from this device. Thank you!");

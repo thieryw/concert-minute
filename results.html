@@ -27,7 +27,8 @@
 // ========== CONFIG : à remplir (mêmes valeurs que vote.html) ==========
 const SUPABASE_URL      = "https://emcntansodqcrjiwsmpg.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_XtiLwWVgGoIoR29HUBaAYQ_qDoVW0AK";
-const CONCERT_ID        = "bordeaux-2026-01";
+// Ouvrez cette page avec le concert voulu dans l'URL :  results.html#c=<id>
+const CONCERT_ID        = new URLSearchParams(location.hash.slice(1)).get("c") || "bordeaux-2026-01";
 // Facultatif : afficher les titres complets au lieu des id
 const TITLES = {
   "ravel-pavane":        "Ravel — Pavane",
