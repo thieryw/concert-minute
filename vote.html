@@ -3,34 +3,123 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#12100E">
 <title>Votez pour le programme</title>
 <style>
-  :root { --accent: #6b4f8a; }
+  :root {
+    --bg:      #12100E;   /* warm near-black; site footer is #181717        */
+    --row:     #1B1815;
+    --row-hi:  #221E1A;
+    --line:    #322C25;
+    --ink:     #E8E3D9;   /* 14.9:1 on --bg */
+    --dim:     #A39B8D;   /*  6.9:1 on --bg */
+    --gold:    #BDA66B;   /*  8.0:1 on --bg — site palette gold1 */
+    --gold-hi: #FFE7AB;   /* 15.6:1 on --bg — site palette gold2 */
+    --warn:    #D99B82;   /*  8.1:1 on --bg */
+    color-scheme: dark;
+  }
   * { box-sizing: border-box; }
-  body { font-family: system-ui, -apple-system, sans-serif; max-width: 600px;
-         margin: 0 auto; padding: 24px; color: #1a1a1a; line-height: 1.4; }
-  h1 { font-size: 1.4rem; margin-bottom: 4px; }
-  p.instructions { color: #555; margin-top: 4px; }
-  ul { list-style: none; padding: 0; }
-  li { margin: 8px 0; }
-  label { display: flex; align-items: center; gap: 12px; padding: 14px 16px;
-          border: 1px solid #ddd; border-radius: 10px; cursor: pointer;
-          transition: border-color .15s, background .15s; }
-  label.checked { border-color: var(--accent); background: #f5f0fa; }
-  label.disabled { opacity: .4; cursor: not-allowed; }
-  input[type=checkbox] { width: 20px; height: 20px; accent-color: var(--accent); flex: none; }
-  button { width: 100%; padding: 16px; font-size: 1rem; border: none; border-radius: 10px;
-           background: var(--accent); color: #fff; cursor: pointer; margin-top: 16px; }
-  button:disabled { background: #ccc; cursor: not-allowed; }
-  .done { text-align: center; padding: 48px 0; }
-  .done .check { font-size: 3rem; color: var(--accent); }
-  .gate { text-align: center; padding: 48px 0; color: #555; }
-  .gate .icon { font-size: 2.5rem; color: var(--accent); }
-  .gate strong { display: block; color: #1a1a1a; margin-bottom: 6px; }
-  .lang-switcher { display: flex; justify-content: flex-end; align-items: center; gap: 6px; margin-bottom: 12px; }
-  .lang-switcher a { font-size: .8rem; font-weight: 700; letter-spacing: 1px; text-decoration: none;
-                     padding: 4px 8px; border: 1px solid #ddd; border-radius: 6px; color: #999; }
-  .lang-switcher a.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  html, body { background: var(--bg); }
+  body { max-width: 600px; margin: 0 auto; padding: 18px 18px 0; color: var(--ink);
+         font-family: system-ui, -apple-system, sans-serif; line-height: 1.45;
+         -webkit-text-size-adjust: 100%; }
+
+  .lang-switcher { display: flex; justify-content: flex-end; gap: 6px; margin-bottom: 20px; }
+  .lang-switcher a { min-width: 44px; text-align: center; padding: 8px 11px; font-size: .78rem;
+                     font-weight: 700; letter-spacing: .14em; text-decoration: none;
+                     border: 1px solid var(--line); border-radius: 6px; color: var(--dim); }
+  .lang-switcher a.active { background: var(--gold); border-color: var(--gold); color: #12100E; }
+
+  .eyebrow { margin: 0 0 10px; font-size: .7rem; letter-spacing: .3em; text-transform: uppercase;
+             color: var(--gold); }
+  h1 { margin: 0 0 14px; font-family: Georgia, "Times New Roman", serif; font-weight: 400;
+       font-size: 1.7rem; line-height: 1.15; }
+  .rule { width: 44px; height: 1px; background: var(--gold); opacity: .7; margin: 0 0 14px; }
+  p.instructions { margin: 0 0 22px; color: var(--dim); font-size: .95rem; }
+
+  ul { list-style: none; padding: 0; margin: 0; }
+  li { margin: 0 0 8px; }
+  label { position: relative; display: flex; align-items: center; gap: 14px; min-height: 62px;
+          padding: 12px 16px; background: var(--row); border: 1px solid var(--line);
+          border-radius: 11px; cursor: pointer; transition: border-color .14s, background .14s; }
+  label:active { background: var(--row-hi); }
+  label:focus-within { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
+  input[type=checkbox] { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .mark { flex: none; width: 26px; height: 26px; border-radius: 50%; border: 2px solid #4A4238;
+          position: relative; transition: background .14s, border-color .14s; }
+  .mark::after { content: ""; position: absolute; left: 8px; top: 4px; width: 6px; height: 11px;
+                 border: solid #12100E; border-width: 0 2.5px 2.5px 0;
+                 transform: rotate(45deg) scale(.4); opacity: 0;
+                 transition: opacity .14s, transform .14s; }
+  .title { font-size: 1.06rem; }
+  label.on { border-color: var(--gold); background: #1F1B15; }
+  label.on .mark { background: var(--gold-hi); border-color: var(--gold-hi); }
+  label.on .mark::after { opacity: 1; transform: rotate(45deg) scale(1); }
+  label.on .title { color: var(--gold-hi); }
+  /* At 3/3 nothing is disabled and nothing is faded out. The chosen rows step
+     forward; the rest merely stop being emphasised. "Disabled" -> "full". */
+  body.full label:not(.on) { background: #191614; }
+  body.full label:not(.on) .title { color: var(--dim); }
+  label.nudge { animation: nudge .4s ease; }
+  @keyframes nudge { 0%,100% { transform: translateX(0) }
+                     25%     { transform: translateX(-5px) }
+                     75%     { transform: translateX(5px) } }
+
+  /* The programme bar: three slots that fill as you choose. */
+  .bar { position: sticky; bottom: 0; margin: 14px -18px 0;
+         padding: 12px 18px calc(14px + env(safe-area-inset-bottom));
+         background: rgba(18,16,14,.94); -webkit-backdrop-filter: blur(12px);
+         backdrop-filter: blur(12px); border-top: 1px solid var(--line); }
+  .slots { display: flex; gap: 7px; margin-bottom: 9px; }
+  .slot { flex: 1 1 0; min-width: 0; height: 46px; border-radius: 8px; display: flex;
+          align-items: center; overflow: hidden; }
+  .slot.empty { border: 1px dashed #4A4238; color: #5E5648; justify-content: center;
+                font-size: 1rem; }
+  .slot.set { border: 1px solid var(--gold); background: #1F1B15; }
+  .slot .st { flex: 1; min-width: 0; height: 100%; padding: 0 0 0 10px; text-align: left;
+              background: none; border: 0; color: var(--gold-hi); font: inherit;
+              font-size: .8rem; white-space: nowrap; overflow: hidden;
+              text-overflow: ellipsis; cursor: pointer; }
+  .slot .x { flex: none; width: 38px; height: 100%; background: none; border: 0;
+             color: var(--gold); font-family: inherit; font-size: 1.25rem; line-height: 1;
+             cursor: pointer; }
+  .bar.pulse .slot { animation: pulse .45s ease 2; }
+  @keyframes pulse { 50% { border-color: var(--warn) } }
+
+  .hint { margin: 0 0 10px; font-size: .85rem; color: var(--dim); text-align: center; }
+  .hint.ready { color: var(--gold); }
+  .hint.warn  { color: var(--warn); }
+
+  button#submit { width: 100%; min-height: 56px; border: 0; border-radius: 10px;
+                  background: var(--gold-hi); color: #12100E; font-family: inherit;
+                  font-size: 1.02rem; font-weight: 600; cursor: pointer; }
+  button#submit:disabled { background: transparent; border: 1px solid var(--line);
+                           color: #5E5648; cursor: default; }
+  .dots span { animation: blink 1.2s infinite; }
+  .dots span:nth-child(2) { animation-delay: .2s; }
+  .dots span:nth-child(3) { animation-delay: .4s; }
+  @keyframes blink { 0%,60%,100% { opacity: .25 } 30% { opacity: 1 } }
+
+  /* Inline send failure, in place of the old alert() box. */
+  .err { margin-bottom: 10px; padding: 13px 15px; border: 1px solid var(--warn);
+         border-radius: 10px; background: #1E1613; }
+  .err p { margin: 0 0 10px; font-size: .9rem; color: var(--warn); }
+  .err button { width: 100%; min-height: 48px; background: transparent;
+                border: 1px solid var(--warn); border-radius: 8px; color: var(--warn);
+                font: inherit; font-size: .95rem; cursor: pointer; }
+
+  .panel { text-align: center; padding: 64px 8px; }
+  .panel svg { margin-bottom: 22px; }
+  .panel strong { display: block; margin-bottom: 9px; font-family: Georgia, "Times New Roman", serif;
+                  font-weight: 400; font-size: 1.35rem; color: var(--ink); }
+  .panel span { display: block; max-width: 30ch; margin: 0 auto; color: var(--dim);
+                font-size: .95rem; }
+  .panel .rule { margin: 20px auto 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::after { animation: none !important; transition: none !important; }
+  }
 </style>
 <script>
   (function () {
@@ -50,10 +139,17 @@
   <a href="vote-en.html">EN</a>
 </div>
 <div id="app">
+  <p class="eyebrow">✦ Minute Concerts</p>
   <h1>Votez pour 3 morceaux</h1>
-  <p class="instructions">Sélectionnez exactement 3 titres, puis validez. (<span id="selected">0</span>/3)</p>
+  <div class="rule"></div>
+  <p class="instructions">Choisissez trois pièces. Les plus demandées seront jouées ce soir.</p>
   <ul id="songs"></ul>
-  <button id="submit" disabled>Valider mon vote</button>
+  <div class="bar" id="bar">
+    <div class="slots" id="slots"></div>
+    <div id="err"></div>
+    <p class="hint" id="hint"></p>
+    <button id="submit" type="button" disabled>Valider mon vote</button>
+  </div>
 </div>
 
 <script>
@@ -102,10 +198,23 @@ const SONGS = [
 const MAX = 3;
 // ========================================
 
-const list = document.getElementById("songs");
+const list      = document.getElementById("songs");
 const submitBtn = document.getElementById("submit");
-const selectedCountEl = document.getElementById("selected");
-const selected = new Set();
+const slotsEl   = document.getElementById("slots");
+const hintEl    = document.getElementById("hint");
+const errEl     = document.getElementById("err");
+const barEl     = document.getElementById("bar");
+const selected  = new Set();
+const rows      = new Map();
+
+// Display-only lookup. Never mutates SONGS.
+const TITLE = {};
+SONGS.forEach(s => { TITLE[s.id] = s.title; });
+
+const ICON_OK     = '<svg width="52" height="52" viewBox="0 0 52 52" fill="none" aria-hidden="true"><circle cx="26" cy="26" r="24" stroke="#FFE7AB" stroke-width="1.5"/><path d="M16 26.5 23 33.5 36.5 20" stroke="#FFE7AB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ICON_QR     = '<svg width="52" height="52" viewBox="0 0 52 52" fill="none" aria-hidden="true"><path d="M6 17V6h11M46 17V6H35M6 35v11h11M46 35v11H35" stroke="#BDA66B" stroke-width="1.8" stroke-linecap="round"/><rect x="18" y="18" width="16" height="16" rx="2" stroke="#BDA66B" stroke-width="1.8"/></svg>';
+const ICON_CLOCK  = '<svg width="52" height="52" viewBox="0 0 52 52" fill="none" aria-hidden="true"><circle cx="26" cy="26" r="21" stroke="#BDA66B" stroke-width="1.8"/><path d="M26 14v12.5l8 5" stroke="#BDA66B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ICON_BROKEN = '<svg width="52" height="52" viewBox="0 0 52 52" fill="none" aria-hidden="true"><path d="M21 31 31 21M20.5 20.5l-4 4a7.8 7.8 0 0 0 11 11l4-4M31.5 31.5l4-4a7.8 7.8 0 0 0-11-11l-4 4" stroke="#D99B82" stroke-width="2" stroke-linecap="round"/></svg>';
 
 // Conserve le jeton quand on bascule FR <-> EN via le sélecteur de langue.
 document.querySelectorAll(".lang-switcher a").forEach(a => {
@@ -117,42 +226,124 @@ document.querySelectorAll(".lang-switcher a").forEach(a => {
 // bulletin qui serait de toute façon refusé.
 const TOKEN = HASH_PARAMS.get("k") || "";
 
+// Build the ballot only when we are actually going to show one. Previously the
+// row loop ran even on the gate / already-voted paths, appending into a node
+// that showGate()/showDone() had already detached.
 if (!TOKEN || !CONCERT_ID) {
   showGate();
 } else if (localStorage.getItem("voted-" + CONCERT_ID)) {
-  showDone("Vous avez déjà voté depuis cet appareil. Merci !");
+  showDone("Vous avez déjà voté", "Un seul bulletin par appareil. Merci de votre participation.");
+} else {
+  buildBallot();
 }
 
-SONGS.forEach(song => {
-  const li = document.createElement("li");
-  const label = document.createElement("label");
-  const cb = document.createElement("input");
-  cb.type = "checkbox";
-  cb.value = song.id;
-  cb.addEventListener("change", () => onToggle(cb, label));
-  label.appendChild(cb);
-  label.appendChild(document.createTextNode(song.title));
-  li.appendChild(label);
-  list.appendChild(li);
-});
+function buildBallot() {
+  SONGS.forEach(song => {
+    const li    = document.createElement("li");
+    const label = document.createElement("label");
+    const cb    = document.createElement("input");
+    cb.type  = "checkbox";
+    cb.value = song.id;
+    const mark  = document.createElement("span");
+    mark.className = "mark";
+    const title = document.createElement("span");
+    title.className = "title";
+    title.textContent = song.title;
+    cb.addEventListener("change", () => onToggle(cb, label));
+    label.appendChild(cb);
+    label.appendChild(mark);
+    label.appendChild(title);
+    li.appendChild(label);
+    list.appendChild(li);
+    rows.set(song.id, { cb: cb, label: label });
+  });
+  render();
+}
 
 function onToggle(cb, label) {
-  if (cb.checked) selected.add(cb.value); else selected.delete(cb.value);
-  label.classList.toggle("checked", cb.checked);
-  selectedCountEl.textContent = selected.size;
-  const atMax = selected.size >= MAX;
-  document.querySelectorAll("#songs input").forEach(box => {
-    if (!box.checked) {
-      box.disabled = atMax;
-      box.closest("label").classList.toggle("disabled", atMax);
+  if (cb.checked) {
+    if (selected.size >= MAX) {   // programme full: refuse and say why
+      cb.checked = false;
+      nudge(label);
+      return;
     }
-  });
-  submitBtn.disabled = selected.size !== MAX;
+    selected.add(cb.value);
+  } else {
+    selected.delete(cb.value);
+  }
+  label.classList.toggle("on", cb.checked);
+  render();
 }
 
-submitBtn.addEventListener("click", async () => {
+function nudge(label) {
+  hintEl.className = "hint warn";
+  hintEl.textContent = "Le programme est complet — retirez une pièce pour changer.";
+  barEl.classList.add("pulse");
+  label.classList.add("nudge");
+  setTimeout(() => { barEl.classList.remove("pulse"); label.classList.remove("nudge"); }, 950);
+  setTimeout(render, 2600);
+}
+
+function deselect(id) {
+  const r = rows.get(id);
+  if (!r) return;
+  r.cb.checked = false;
+  r.label.classList.remove("on");
+  selected.delete(id);
+  render();
+}
+
+function goTo(id) {
+  const r = rows.get(id);
+  if (!r) return;
+  const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  r.label.scrollIntoView({ behavior: calm ? "auto" : "smooth", block: "center" });
+  r.label.classList.add("nudge");
+  setTimeout(() => r.label.classList.remove("nudge"), 420);
+}
+
+function render() {
+  const ids = [...selected];
+  document.body.classList.toggle("full", ids.length >= MAX);
+  slotsEl.innerHTML = "";
+  for (let i = 0; i < MAX; i++) {
+    const slot = document.createElement("div");
+    const id   = ids[i];
+    if (id) {
+      slot.className = "slot set";
+      const t = document.createElement("button");
+      t.type = "button";
+      t.className = "st";
+      t.textContent = TITLE[id];
+      t.addEventListener("click", () => goTo(id));
+      const x = document.createElement("button");
+      x.type = "button";
+      x.className = "x";
+      x.setAttribute("aria-label", "Retirer");
+      x.textContent = "\u00d7";
+      x.addEventListener("click", () => deselect(id));
+      slot.appendChild(t);
+      slot.appendChild(x);
+    } else {
+      slot.className = "slot empty";
+      slot.textContent = "\u2726";
+    }
+    slotsEl.appendChild(slot);
+  }
+  const left = MAX - ids.length;
+  hintEl.className = left === 0 ? "hint ready" : "hint";
+  hintEl.textContent = left === MAX ? "Aucune pièce choisie"
+                     : left > 0  ? "Encore " + left + " pièce" + (left > 1 ? "s" : "")
+                     : "Programme complet";
+  submitBtn.disabled = ids.length !== MAX;
+}
+
+submitBtn.addEventListener("click", castBallot);
+
+async function castBallot() {
+  errEl.innerHTML = "";
   submitBtn.disabled = true;
-  submitBtn.textContent = "Envoi…";
+  submitBtn.innerHTML = "Envoi" + '<span class="dots"><span>.</span><span>.</span><span>.</span></span>';
   try {
     // Tout est validé côté serveur : jeton, ouverture du vote, exactement 3
     // titres, sans doublon, appartenant bien au programme de ce concert.
@@ -173,32 +364,38 @@ submitBtn.addEventListener("click", async () => {
     const status = await res.json();
     if (status === "ok") {
       localStorage.setItem("voted-" + CONCERT_ID, "1");
-      showDone("Merci, votre vote est enregistré !");
+      showDone("Merci, votre vote est enregistré", "Les trois pièces les plus demandées seront jouées avant la fin du concert.");
     } else if (status === "closed") {
-      showGate("<strong>Le vote n'est pas ouvert</strong>" +
-               "Le vote se fait pendant le concert.");
+      showGate("Le vote n’est pas ouvert", "Le vote se déroule pendant le concert. Rescannez le QR code à ce moment-là.", ICON_CLOCK);
     } else {
-      showGate("<strong>Lien de vote non valide</strong>" +
-               "Scannez le QR code imprimé sur le programme.");
+      showGate("Lien de vote non valide", "Ce lien a expiré ou a été recopié. Scannez le QR code imprimé sur le programme.", ICON_BROKEN);
     }
   } catch (e) {
     submitBtn.disabled = false;
     submitBtn.textContent = "Valider mon vote";
-    alert("Erreur lors de l'envoi. Réessayez.\n\n" + e.message);
+    showError();
   }
-});
-
-function showDone(msg) {
-  document.getElementById("app").innerHTML =
-    '<div class="done"><div class="check">✓</div><p>' + msg + '</p></div>';
 }
 
-function showGate(html) {
+// Replaces alert(): an OS dialog at full brightness is the worst thing this
+// page can do in a dark hall. The three choices survive the failure.
+function showError() {
+  errEl.innerHTML = '<div class="err"><p>' + "L’envoi n’a pas abouti. Vos trois choix sont conservés." + '</p>' +
+                    '<button type="button" id="retry">' + "Réessayer" + '</button></div>';
+  document.getElementById("retry").addEventListener("click", castBallot);
+}
+
+function panel(icon, title, detail) {
+  document.body.classList.remove("full");
   document.getElementById("app").innerHTML =
-    '<div class="gate"><div class="icon">▣</div><p>' +
-    (html || "<strong>Vote réservé au public du concert</strong>" +
-             "Scannez le QR code imprimé sur le programme pour accéder au vote.") +
-    '</p></div>';
+    '<div class="panel">' + icon + '<strong>' + title + '</strong>' +
+    '<span>' + detail + '</span><div class="rule"></div></div>';
+}
+
+function showDone(title, detail) { panel(ICON_OK, title, detail); }
+
+function showGate(title, detail, icon) {
+  panel(icon || ICON_QR, title || "Vote réservé au public du concert", detail || "Scannez le QR code imprimé sur le programme pour accéder au bulletin.");
 }
 </script>
 </body>

@@ -3,25 +3,94 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#12100E">
 <title>Résultats du vote</title>
 <style>
-  :root { --accent: #6b4f8a; }
-  body { font-family: system-ui, -apple-system, sans-serif; max-width: 660px;
-         margin: 0 auto; padding: 24px; color: #1a1a1a; }
-  h1 { font-size: 1.4rem; margin-bottom: 2px; }
-  .meta { color: #777; font-size: .85rem; margin-top: 0; }
-  .row { margin: 12px 0; }
-  .toplabel { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: .95rem; }
-  .toplabel .n { font-weight: 600; color: var(--accent); }
-  .bar-bg { background: #eee; border-radius: 6px; overflow: hidden; height: 24px; }
-  .bar { height: 100%; background: var(--accent); width: 0; transition: width .4s ease; }
-  .winner .bar { background: #4a3663; }
+  :root {
+    --bg:      #12100E;
+    --line:    #322C25;
+    --track:   #241F1A;
+    --ink:     #E8E3D9;
+    --dim:     #A39B8D;
+    --gold:    #BDA66B;
+    --gold-hi: #FFE7AB;
+    --warn:    #D99B82;
+    color-scheme: dark;
+  }
+  /* Unlike the ballot, this page may well be read in daylight, so it follows
+     the device preference instead of forcing dark. The golds are darkened in
+     light mode; #BDA66B on cream is only 2.2:1 and cannot carry text. */
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg:      #FAF9F6;
+      --line:    #E2DCD0;
+      --track:   #E6E0D4;
+      --ink:     #2A2318;
+      --dim:     #6E6659;
+      --gold:    #7A6636;   /* 5.2:1 on --bg */
+      --gold-hi: #5A4A24;   /* 8.1:1 on --bg */
+      --warn:    #A3563B;
+      color-scheme: light;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { background: var(--bg); }
+  /* clamp() throughout so the page still reads if it is ever projected. */
+  body { max-width: 760px; margin: 0 auto; padding: clamp(20px, 3vw, 40px);
+         color: var(--ink); font-family: system-ui, -apple-system, sans-serif;
+         line-height: 1.45; -webkit-text-size-adjust: 100%; }
+  .eyebrow { margin: 0 0 10px; font-size: clamp(.68rem, 1.1vw, .85rem); letter-spacing: .3em;
+             text-transform: uppercase; color: var(--gold); }
+  h1 { margin: 0 0 8px; font-family: Georgia, "Times New Roman", serif; font-weight: 400;
+       font-size: clamp(1.6rem, 4.2vw, 3rem); line-height: 1.1; }
+  .meta { margin: 0 0 22px; color: var(--dim); font-size: clamp(.82rem, 1.5vw, 1.05rem); }
+  .rule { width: 44px; height: 1px; background: var(--gold); opacity: .7; margin: 0 0 22px; }
+
+  .row { margin: 0 0 clamp(14px, 2vw, 22px); }
+  .toplabel { display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
+              margin-bottom: 6px; }
+  .toplabel .t { font-size: clamp(.95rem, 1.9vw, 1.35rem); }
+  .toplabel .n { flex: none; font-variant-numeric: tabular-nums; font-weight: 600;
+                 color: var(--gold); font-size: clamp(.95rem, 1.9vw, 1.35rem); }
+  .bar-bg { background: var(--track); border-radius: 5px; overflow: hidden;
+            height: clamp(12px, 1.8vw, 22px); }
+  .bar { height: 100%; background: var(--gold); width: 0; transition: width .45s ease; }
+  /* Three pieces get played, so all three leaders are marked, not just one. */
+  .winner .bar { background: var(--gold-hi); }
+  .winner .toplabel .t, .winner .toplabel .n { color: var(--gold-hi); }
+  .tag { margin-left: 10px; padding: 2px 7px; white-space: nowrap; border-radius: 4px;
+         border: 1px solid var(--gold-hi); color: var(--gold-hi);
+         font-size: clamp(.6rem, 1vw, .72rem); letter-spacing: .2em; text-transform: uppercase; }
+
+  .skel   { height: clamp(12px, 1.8vw, 22px); border-radius: 5px; background: var(--track);
+            animation: shim 1.5s ease-in-out infinite; }
+  .skel-t { height: .85em; width: var(--w, 60%); margin-bottom: 7px; border-radius: 4px;
+            background: var(--track); animation: shim 1.5s ease-in-out infinite; }
+  @keyframes shim { 50% { opacity: .42 } }
+
+  .empty, .fail { padding: 44px 24px; text-align: center; border: 1px solid var(--line);
+                  border-radius: 12px; }
+  .fail { border-color: var(--warn); }
+  .empty strong, .fail strong { display: block; margin-bottom: 8px; font-weight: 400;
+         font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.1rem, 2.4vw, 1.5rem); }
+  .fail strong { color: var(--warn); }
+  .empty span, .fail span { color: var(--dim); font-size: clamp(.85rem, 1.5vw, 1rem); }
+  .fail button { margin-top: 18px; min-height: 48px; padding: 0 26px; background: transparent;
+                 border: 1px solid var(--warn); border-radius: 8px; color: var(--warn);
+                 font: inherit; cursor: pointer; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
 </style>
 </head>
 <body>
-<h1>Résultats — <span id="cid"></span></h1>
-<p class="meta">≈ <span id="ballots">0</span> votant(s) · mise à jour automatique</p>
-<div id="results">Chargement…</div>
+<p class="eyebrow">✦ Minute Concerts</p>
+<h1>Dépouillement</h1>
+<p class="meta"><span id="cid"></span> · ≈ <span id="ballots">0</span> votant(s) · mise à jour automatique</p>
+<div class="rule"></div>
+<div id="results"></div>
 
 <script>
 // ========== CONFIG : à remplir (mêmes valeurs que vote.html) ==========
@@ -66,7 +135,17 @@ const TITLES = {
 
 document.getElementById("cid").textContent = CONCERT_ID;
 
+const box = document.getElementById("results");
+let loadedOnce = false;
+
+function skeleton() {
+  return [70, 55, 62, 48, 40].map(w =>
+    '<div class="row"><div class="skel-t" style="--w:' + w + '%"></div>' +
+    '<div class="skel"></div></div>').join("");
+}
+
 async function load() {
+  if (!loadedOnce) box.innerHTML = skeleton();
   try {
     const res = await fetch(SUPABASE_URL + "/rest/v1/rpc/get_vote_counts", {
       method: "POST",
@@ -77,32 +156,48 @@ async function load() {
       },
       body: JSON.stringify({ p_concert_id: CONCERT_ID })
     });
+    if (!res.ok) throw new Error(res.status);
     render(await res.json());
+    loadedOnce = true;
   } catch (e) {
-    document.getElementById("results").textContent = "Erreur de chargement.";
+    showFail();
   }
 }
 
+function showFail() {
+  box.innerHTML =
+    '<div class="fail"><strong>R\u00e9sultats indisponibles</strong>' +
+    '<span>Impossible de joindre le serveur. La page r\u00e9essaiera toute seule.</span><br>' +
+    '<button type="button" id="again">R\u00e9essayer maintenant</button></div>';
+  document.getElementById("again").addEventListener("click", load);
+}
+
 function render(data) {
-  const box = document.getElementById("results");
   if (!Array.isArray(data) || !data.length) {
-    box.textContent = "Aucun vote pour l'instant."; return;
+    document.getElementById("ballots").textContent = "0";
+    box.innerHTML =
+      '<div class="empty"><strong>Aucun vote pour l\u2019instant</strong>' +
+      '<span>Le d\u00e9pouillement s\u2019affichera ici d\u00e8s le premier bulletin re\u00e7u. ' +
+      'Mise \u00e0 jour automatique toutes les 5 secondes.</span></div>';
+    return;
   }
-  const max = Math.max(...data.map(d => Number(d.votes)));
+  const max   = Math.max(...data.map(d => Number(d.votes)));
   const total = data.reduce((s, d) => s + Number(d.votes), 0);
   document.getElementById("ballots").textContent = Math.round(total / 3);
   box.innerHTML = data.map((d, i) => {
     const title = TITLES[d.song_id] || d.song_id;
-    const pct = max ? (Number(d.votes) / max * 100) : 0;
-    return '<div class="row ' + (i === 0 ? 'winner' : '') + '">' +
-      '<div class="toplabel"><span>' + title + '</span>' +
+    const pct   = max ? (Number(d.votes) / max * 100) : 0;
+    const win   = i < 3;   // the three that will actually be played
+    return '<div class="row ' + (win ? 'winner' : '') + '">' +
+      '<div class="toplabel"><span class="t">' + title +
+      (win ? '<span class="tag">au programme</span>' : '') + '</span>' +
       '<span class="n">' + d.votes + '</span></div>' +
       '<div class="bar-bg"><div class="bar" style="width:' + pct + '%"></div></div></div>';
   }).join("");
 }
 
 load();
-setInterval(load, 5000);   // rafraîchit toutes les 5 s
+setInterval(load, 5000);   // rafra\u00eechit toutes les 5 s
 </script>
 </body>
 </html>
