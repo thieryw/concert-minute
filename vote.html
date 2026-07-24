@@ -68,10 +68,36 @@ const SUPABASE_ANON_KEY = "sb_publishable_XtiLwWVgGoIoR29HUBaAYQ_qDoVW0AK";
 const HASH_PARAMS       = new URLSearchParams(location.hash.slice(1));
 const CONCERT_ID        = HASH_PARAMS.get("c") || "";
 const SONGS = [
-  { id: "ravel-pavane",        title: "Ravel — Pavane pour une infante défunte" },
-  { id: "faure-apres-un-reve", title: "Fauré — Après un rêve" },
-  { id: "tailleferre-quatuor", title: "Tailleferre — Quatuor à cordes" },
-  // ... ajoutez tous vos titres ici (id sans espaces ni accents)
+  { id: "ravel-pavane",                    title: "Ravel — Pavane pour une infante défunte" },
+  { id: "faure-apres-un-reve",             title: "Fauré — Après un rêve" },
+  { id: "tailleferre-quatuor",             title: "Tailleferre — Quatuor à cordes" },
+  { id: "carreno-quatuor",                 title: "Teresa Carreño — Quatuor à cordes en si mineur" },
+  { id: "imogen-holst-phantasy",           title: "Imogen Holst — Phantasy Quartet" },
+  { id: "debussy-quatuor-1",               title: "Debussy — Quatuor, I. Animé et très décidé" },
+  { id: "ravel-quatuor-2",                 title: "Ravel — Quatuor, II. Assez vif" },
+  { id: "borodine-nocturne",               title: "Borodine — Nocturne (Quatuor n° 2)" },
+  { id: "barber-adagio",                   title: "Barber — Adagio (Quatuor op. 11)" },
+  { id: "puccini-crisantemi",              title: "Puccini — Crisantemi" },
+  { id: "mozart-dissonances-1",            title: "Mozart — Quatuor « Les Dissonances », I" },
+  { id: "haydn-empereur-2",                title: "Haydn — Quatuor « L’Empereur », II. Poco adagio" },
+  { id: "schubert-jeune-fille-2",          title: "Schubert — La Jeune Fille et la Mort, II" },
+  { id: "beethoven-op18-1-adagio",         title: "Beethoven — Quatuor op. 18 n° 1, II. Adagio" },
+  { id: "dvorak-americain-2",              title: "Dvořák — Quatuor « Américain », II. Lento" },
+  { id: "fanny-mendelssohn-quatuor",       title: "Fanny Mendelssohn — Quatuor en mi bémol" },
+  { id: "boulanger-nocturne",              title: "Lili Boulanger — Nocturne (arr.)" },
+  { id: "clara-schumann-romance",          title: "Clara Schumann — Romance op. 22 n° 1 (arr.)" },
+  { id: "price-folksongs",                 title: "Florence Price — Five Folksongs in Counterpoint" },
+  { id: "bacewicz-quatuor-4",              title: "Bacewicz — Quatuor n° 4, II" },
+  { id: "coleridge-taylor-fantasiestucke", title: "Coleridge-Taylor — Fantasiestücke, II" },
+  { id: "sibelius-voces-intimae-3",        title: "Sibelius — Voces intimae, III. Adagio" },
+  { id: "chostakovitch-8-2",               title: "Chostakovitch — Quatuor n° 8, II" },
+  { id: "janacek-kreutzer-1",              title: "Janáček — Sonate à Kreutzer, I" },
+  { id: "grieg-quatuor-op27-2",            title: "Grieg — Quatuor op. 27, II. Romanze" },
+  { id: "bartok-danses-roumaines",         title: "Bartók — Danses populaires roumaines (arr.)" },
+  { id: "glass-mishima-3",                 title: "Glass — Quatuor n° 3 « Mishima », III" },
+  { id: "piazzolla-oblivion",              title: "Piazzolla — Oblivion (arr.)" },
+  { id: "gershwin-lullaby",                title: "Gershwin — Lullaby" },
+  { id: "elgar-salut-damour",              title: "Elgar — Salut d’Amour (arr.)" },
 ];
 const MAX = 3;
 // ========================================
