@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#12100E">
-<title>Résultats en direct</title>
+<title>Live results</title>
 <style>
   :root {
     --bg:      #12100E;
@@ -102,13 +102,13 @@
 </head>
 <body>
 <div class="lang-switcher">
-  <a href="results.html" class="active">FR</a>
-  <a href="results-en.html">EN</a>
+  <a href="results.html">FR</a>
+  <a href="results-en.html" class="active">EN</a>
 </div>
 <p class="eyebrow">✦ Minute Concerts</p>
-<h1>Résultats en direct</h1>
-<p class="sub">Les trois pièces les plus demandées, jouées avant la fin du concert.</p>
-<p class="live"><span class="dot"></span>en direct</p>
+<h1>Live results</h1>
+<p class="sub">The three most requested pieces, played before the end of the concert.</p>
+<p class="live"><span class="dot"></span>live</p>
 <div class="rule"></div>
 <div id="results"></div>
 
@@ -120,36 +120,36 @@ const SUPABASE_ANON_KEY = "sb_publishable_XtiLwWVgGoIoR29HUBaAYQ_qDoVW0AK";
 const CONCERT_ID        = new URLSearchParams(location.hash.slice(1)).get("c") || "bordeaux-2026-01";
 // Facultatif : afficher les titres complets au lieu des id
 const TITLES = {
-  "ravel-pavane":                    "Ravel — Pavane pour une infante défunte",
-  "faure-apres-un-reve":             "Fauré — Après un rêve",
-  "tailleferre-quatuor":             "Tailleferre — Quatuor à cordes",
-  "carreno-quatuor":                 "Teresa Carreño — Quatuor à cordes en si mineur",
-  "imogen-holst-phantasy":           "Imogen Holst — Phantasy Quartet",
-  "debussy-quatuor-1":               "Debussy — Quatuor, I. Animé et très décidé",
-  "ravel-quatuor-2":                 "Ravel — Quatuor, II. Assez vif",
-  "borodine-nocturne":               "Borodine — Nocturne (Quatuor n° 2)",
-  "barber-adagio":                   "Barber — Adagio (Quatuor op. 11)",
-  "puccini-crisantemi":              "Puccini — Crisantemi",
-  "mozart-dissonances-1":            "Mozart — Quatuor « Les Dissonances », I",
-  "haydn-empereur-2":                "Haydn — Quatuor « L’Empereur », II. Poco adagio",
-  "schubert-jeune-fille-2":          "Schubert — La Jeune Fille et la Mort, II",
-  "beethoven-op18-1-adagio":         "Beethoven — Quatuor op. 18 n° 1, II. Adagio",
-  "dvorak-americain-2":              "Dvořák — Quatuor « Américain », II. Lento",
-  "fanny-mendelssohn-quatuor":       "Fanny Mendelssohn — Quatuor en mi bémol",
-  "boulanger-nocturne":              "Lili Boulanger — Nocturne (arr.)",
-  "clara-schumann-romance":          "Clara Schumann — Romance op. 22 n° 1 (arr.)",
-  "price-folksongs":                 "Florence Price — Five Folksongs in Counterpoint",
-  "bacewicz-quatuor-4":              "Bacewicz — Quatuor n° 4, II",
-  "coleridge-taylor-fantasiestucke": "Coleridge-Taylor — Fantasiestücke, II",
-  "sibelius-voces-intimae-3":        "Sibelius — Voces intimae, III. Adagio",
-  "chostakovitch-8-2":               "Chostakovitch — Quatuor n° 8, II",
-  "janacek-kreutzer-1":              "Janáček — Sonate à Kreutzer, I",
-  "grieg-quatuor-op27-2":            "Grieg — Quatuor op. 27, II. Romanze",
-  "bartok-danses-roumaines":         "Bartók — Danses populaires roumaines (arr.)",
-  "glass-mishima-3":                 "Glass — Quatuor n° 3 « Mishima », III",
-  "piazzolla-oblivion":              "Piazzolla — Oblivion (arr.)",
-  "gershwin-lullaby":                "Gershwin — Lullaby",
-  "elgar-salut-damour":              "Elgar — Salut d’Amour (arr.)",
+  "ravel-pavane":                      "Ravel — Pavane for a Dead Princess",
+  "faure-apres-un-reve":               "Fauré — After a Dream",
+  "tailleferre-quatuor":               "Tailleferre — String Quartet",
+  "carreno-quatuor":                   "Teresa Carreño — String Quartet in B minor",
+  "imogen-holst-phantasy":             "Imogen Holst — Phantasy Quartet",
+  "debussy-quatuor-1":                 "Debussy — Quartet, I. Animé et très décidé",
+  "ravel-quatuor-2":                   "Ravel — Quartet, II. Assez vif",
+  "borodine-nocturne":                 "Borodin — Nocturne (Quartet No. 2)",
+  "barber-adagio":                     "Barber — Adagio (Quartet Op. 11)",
+  "puccini-crisantemi":                "Puccini — Crisantemi",
+  "mozart-dissonances-1":              "Mozart — “Dissonance” Quartet, I",
+  "haydn-empereur-2":                  "Haydn — “Emperor” Quartet, II. Poco adagio",
+  "schubert-jeune-fille-2":            "Schubert — Death and the Maiden, II",
+  "beethoven-op18-1-adagio":           "Beethoven — Quartet Op. 18 No. 1, II. Adagio",
+  "dvorak-americain-2":                "Dvořák — “American” Quartet, II. Lento",
+  "fanny-mendelssohn-quatuor":         "Fanny Mendelssohn — Quartet in E-flat",
+  "boulanger-nocturne":                "Lili Boulanger — Nocturne (arr.)",
+  "clara-schumann-romance":            "Clara Schumann — Romance Op. 22 No. 1 (arr.)",
+  "price-folksongs":                   "Florence Price — Five Folksongs in Counterpoint",
+  "bacewicz-quatuor-4":                "Bacewicz — Quartet No. 4, II",
+  "coleridge-taylor-fantasiestucke":   "Coleridge-Taylor — Fantasiestücke, II",
+  "sibelius-voces-intimae-3":          "Sibelius — Voces intimae, III. Adagio",
+  "chostakovitch-8-2":                 "Shostakovich — Quartet No. 8, II",
+  "janacek-kreutzer-1":                "Janáček — Kreutzer Sonata, I",
+  "grieg-quatuor-op27-2":              "Grieg — Quartet Op. 27, II. Romanze",
+  "bartok-danses-roumaines":           "Bartók — Romanian Folk Dances (arr.)",
+  "glass-mishima-3":                   "Glass — Quartet No. 3 “Mishima”, III",
+  "piazzolla-oblivion":                "Piazzolla — Oblivion (arr.)",
+  "gershwin-lullaby":                  "Gershwin — Lullaby",
+  "elgar-salut-damour":                "Elgar — Salut d’Amour (arr.)",
 };
 // =====================================================================
 
@@ -188,16 +188,16 @@ async function load() {
 
 function showFail() {
   box.innerHTML =
-    '<div class="fail"><strong>Résultats momentanément indisponibles</strong>' +
-    '<span>Impossible de joindre le serveur. La page réessaiera toute seule.</span><br>' +
-    '<button type="button" id="again">Réessayer maintenant</button></div>';
+    '<div class="fail"><strong>Results temporarily unavailable</strong>' +
+    '<span>Couldn’t reach the server. The page will keep trying on its own.</span><br>' +
+    '<button type="button" id="again">Try again now</button></div>';
   document.getElementById("again").addEventListener("click", load);
 }
 
 function render(data) {
   if (!Array.isArray(data) || !data.length) {
     box.innerHTML =
-      '<div class="empty"><strong>Aucun vote pour l’instant</strong><span>Le classement s’affichera ici dès le premier bulletin reçu.</span></div>';
+      '<div class="empty"><strong>No votes yet</strong><span>The ranking will appear here as soon as the first ballot arrives.</span></div>';
     return;
   }
   // Total ballots: every ballot is exactly 3 picks, so sum / 3.
@@ -206,7 +206,7 @@ function render(data) {
   // Rank by votes; ties broken alphabetically by title; then keep the top 3.
   const top = data
     .map(d => ({ id: d.song_id, votes: Number(d.votes), title: TITLES[d.song_id] || d.song_id }))
-    .sort((a, b) => b.votes - a.votes || a.title.localeCompare(b.title, "fr"))
+    .sort((a, b) => b.votes - a.votes || a.title.localeCompare(b.title, "en"))
     .slice(0, 3);
 
   box.innerHTML = top.map((d, i) => {
@@ -218,7 +218,7 @@ function render(data) {
       '<div class="track"><div class="fill" style="width:' + share + '%"></div></div>' +
     '</div>';
   }).join("") +
-  '<p class="caption">% = part du public ayant choisi la pièce.</p>';
+  '<p class="caption">% = share of the audience who chose the piece.</p>';
 }
 
 load();
